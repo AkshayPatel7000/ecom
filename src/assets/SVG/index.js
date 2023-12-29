@@ -64,8 +64,11 @@ import Shop from '../SVG/Shop';
 import ShopActive from '../SVG/ShopActive';
 import Cart from '../SVG/Cart';
 import CartActive from '../SVG/CartActive';
-
+import PhoneSvg from '../SVG/PhoneSvg';
+import UserSVG from '../SVG/UserSVG';
 export {
+  PhoneSvg,
+  UserSVG,
   SideArrow,
   AuthSVG,
   MsLogo,

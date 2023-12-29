@@ -1,5 +1,5 @@
 {
-  "name": "AmazonAppClone",
+  "name": "vidhitraders",
   "version": "0.0.1",
   "private": true,
   "scripts": {
@@ -9,8 +9,6 @@
     "android:w": "react-native run-android",
     "ios": "react-native run-ios",
     "start": "react-native start --reset-cache",
-    "test": "jest",
-    "lint": "eslint .",
     "build_clean": "watchman watch-del-all && cd android && ./gradlew clean && cd ..",
     "build": "watchman watch-del-all && cd android && ./gradlew assembleRelease && cd .. && open ./android/app/build/outputs/apk/release",
     "build:win": "cd android && ./gradlew assembleRelease && cd .. && explorer .\\android\\app\\build\\outputs\\apk\\release",
@@ -39,6 +37,7 @@
     "react-native-gesture-handler": "^2.11.0",
     "react-native-image-crop-picker": "^0.38.0",
     "react-native-keyboard-aware-scroll-view": "^0.9.5",
+    "react-native-keychain": "^8.1.2",
     "react-native-linear-gradient": "^2.6.2",
     "react-native-modalize": "^2.1.1",
     "react-native-otp-inputs": "^7.4.0",

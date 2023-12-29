@@ -66,7 +66,6 @@ const ShippingAddress = () => {
 
       <FlatList
         data={addresses}
-        inverted
         renderItem={_renderItem}
         contentContainerStyle={styles.contentContainerStyle}
       />

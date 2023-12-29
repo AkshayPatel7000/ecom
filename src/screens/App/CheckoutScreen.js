@@ -213,13 +213,13 @@ const CheckoutScreen = props => {
       }
     }
   };
-  const onOrderPlace = orderData => {
+  const onOrderPlace = orderBody => {
     var options = {
       description: 'Credits towards consultation',
       image: 'https://i.imgur.com/3g7nmJC.png',
       currency: 'INR',
       key: 'rzp_test_V58aNPoa7wSiXe', // Your api key
-      amount: orderData?.totalDiscountedPrice * 100,
+      amount: cart.totalDiscountedPrice * 100,
       name: 'foo',
       prefill: {
         email: userData.email,
@@ -227,12 +227,18 @@ const CheckoutScreen = props => {
         name: `${userData.firstName} ${userData.lastName}`,
       },
       theme: {color: '#38CCAA'},
-      ...orderData,
     };
+    console.log('🚀 ~ cart:', options);
+
     RazorpayCheckout.open(options)
       .then(async data => {
         const {razorpay_order_id, razorpay_payment_id, razorpay_signature} =
           data;
+        const orderData = await createOrder(orderBody);
+        console.log('🚀 ~ orderData:', orderData);
+        if (orderData.error) {
+          return showError('Please select a valid address');
+        }
         await VerifyOrder(
           razorpay_payment_id,
           razorpay_order_id,
@@ -249,6 +255,7 @@ const CheckoutScreen = props => {
         // handle failure
       });
   };
+
   const CreateNewOrder = async () => {
     try {
       let errorState = [
@@ -281,12 +288,7 @@ const CheckoutScreen = props => {
       if (address.trim() == '') {
         return showError('Please select a valid address');
       }
-      const orderData = await createOrder(ordersBody);
-      if (orderData.error) {
-        return showError('Please select a valid address');
-      }
-
-      onOrderPlace(orderData);
+      onOrderPlace(ordersBody);
     } catch (error) {
       console.log(
         '🛺 ~ file: CheckoutScreen.js:255 ~ CreateNewOrder ~ error:',

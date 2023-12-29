@@ -25,7 +25,7 @@ const BackHeader = ({
   };
   return (
     <>
-      <View style={[styles.main, GlobalStyles.shadow]}>
+      <View style={[styles.main]}>
         <View style={{flexDirection: 'row'}}>
           {showBack && (
             <TouchableOpacity onPress={moveTo}>

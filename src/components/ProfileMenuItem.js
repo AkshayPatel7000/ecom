@@ -13,9 +13,11 @@ import {
 import {FONTSIZE, LocalStorage, RoutesName} from '../utils/Resource';
 
 import {useAppDispatch} from '../Store/MainStore';
-import {setAuthToken} from '../Store/Slices/AuthSlice';
+import {resetAuthSlice, setAuthToken} from '../Store/Slices/AuthSlice';
 import CustomText from './CustomText/CustomText';
 import GlobalStyles from './GlobalStyles/GlobalStyles';
+import {setCartItems} from '../Store/Slices/CartSlice';
+import {resetShopSlice} from '../Store/Slices/ShopSlice';
 
 const ProfileMenuItem = () => {
   const {colors} = useTheme();
@@ -28,7 +30,10 @@ const ProfileMenuItem = () => {
   };
   const onLogOutPress = () => {
     LocalStorage.LocalStorageLogOut();
+    dispatch(resetAuthSlice());
     dispatch(setAuthToken(null));
+    dispatch(setCartItems({}));
+    dispatch(resetShopSlice({}));
   };
 
   return (

@@ -12,6 +12,7 @@ const initialState = {
   myOrdersCANCELLED: [],
   mySelectedOrder: {},
   dashboard: {},
+  appLogo: null,
 };
 
 const slice = createSlice({
@@ -22,7 +23,14 @@ const slice = createSlice({
       state.authToken = action.payload;
     },
     setUserProfile: (state, action) => {
-      state.userProfile = action.payload;
+      let addresses =
+        action?.payload?.addresses?.length > 0
+          ? action?.payload?.addresses?.reverse()
+          : [];
+      state.userProfile = {
+        ...action.payload,
+        addresses: addresses,
+      };
     },
     setDepartments: (state, action) => {
       state.departments = action.payload;
@@ -50,6 +58,24 @@ const slice = createSlice({
     setDashboard: (state, action) => {
       state.dashboard = action.payload;
     },
+    setAppLogo: (state, action) => {
+      state.appLogo = action.payload;
+    },
+    resetAuthSlice: (state, action) => {
+      state = {
+        authToken: '',
+        userData: {},
+        userProfile: {},
+        departments: [],
+        designation: [],
+        homeCarousel: [],
+        myOrdersPENDING: [],
+        myOrdersDELIVERED: [],
+        myOrdersCANCELLED: [],
+        mySelectedOrder: {},
+        dashboard: {},
+      };
+    },
   },
 });
 
@@ -62,6 +88,8 @@ export const {
   setMyOrders,
   setSelectedOrder,
   setDashboard,
+  resetAuthSlice,
+  setAppLogo,
 } = slice.actions;
 
 export default slice.reducer;
@@ -78,3 +106,4 @@ export const selectMyOrdersDELIVERED = state =>
   state.AuthSlice.myOrdersDELIVERED;
 export const selectedOrderData = state => state.AuthSlice.mySelectedOrder;
 export const selectDashboard = state => state.AuthSlice.dashboard;
+export const selectAppLogo = state => state.AuthSlice.appLogo;

@@ -35,6 +35,7 @@ const MyOrderTabScreen = props => {
     navigate(RoutesName.ORDER_DETAILS);
   };
   const _renderItem = ({item}) => {
+    console.log('🚀 ~ item:', item.orderStatus);
     return (
       <View style={styles.itemCard}>
         <View style={styles.orderNoContainer}>
@@ -102,7 +103,7 @@ const MyOrderTabScreen = props => {
             <CustomText>Details</CustomText>
           </TouchableOpacity>
           <CustomText
-            style={[styles.dateText, {color: colors[props.route.title]}]}>
+            style={[styles.dateText, {color: colors[item.orderStatus]}]}>
             {item.orderStatus}
           </CustomText>
         </View>

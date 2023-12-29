@@ -55,6 +55,12 @@ client.interceptors.response.use(
     }
     if (error.response) {
       if (error.response.status === 500) {
+        if (error?.response?.data?.error) {
+          throw {
+            message: error.response.data.error,
+          };
+        }
+
         throw {
           message: 'Something went wrong. Please try again later.',
         };

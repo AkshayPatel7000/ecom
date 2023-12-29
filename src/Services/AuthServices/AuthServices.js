@@ -1,5 +1,6 @@
 import {store} from '../../Store/MainStore';
 import {
+  setAppLogo,
   setAuthToken,
   setCarousel,
   setDashboard,
@@ -79,7 +80,20 @@ export const getUserProfile = async token => {
     );
   }
 };
+export const getAppLogo = async token => {
+  try {
+    const {data} = await Client.get(URLS.APP_LOGO);
 
+    if (data.profile.logo) {
+      store.dispatch(setAppLogo(data.profile.logo));
+    }
+  } catch (error) {
+    console.log(
+      '🚀 ~ file: AuthServices.js:43 ~ getUserProfile ~ error:',
+      error,
+    );
+  }
+};
 const userLoginData = async tkn => {
   try {
     const {data} = await client.post(URLS.GET_USER_LOGIN_DETAIL(tkn));
@@ -117,11 +131,12 @@ export const updateUser = async body => {
   try {
     const token = await LocalStorage.getToken();
 
-    const {data} = await client.post(URLS.UPDATE_USER, body, {
-      headers: HEADERS.URLENCODED,
-    });
-    await getUserProfile(token);
+    const {data} = await client.put(URLS.UPDATE_USER, body);
+    console.log('🚀 ~ data:', data);
+    LocalStorage.storeUser({...data});
+    store.dispatch(setUserProfile({...data}));
     showSuccess('Profile Updated');
+    return data;
   } catch (error) {
     console.log('🛺 ~ file: AuthServices.js:186 ~ updateUser ~ error:', error);
   }
@@ -150,5 +165,15 @@ export const getMyOrders = async (status = 'PLACED') => {
     store.dispatch(setMyOrders({data, status}));
   } catch (error) {
     console.log('🛺 ~ file: AuthServices.js:137 ~ getMyOrders ~ error:', error);
+  }
+};
+export const cancelOrder = async id => {
+  try {
+    const {data} = await client.put(URLS.CANCEL_ORDER(id), {});
+    getMyOrders();
+    return data;
+  } catch (error) {
+    console.log('🛺 ~ file: ShopService.js:21 ~ createOrder ~ error:', error);
+    return {error: 'Please select valid address.'};
   }
 };

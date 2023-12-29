@@ -12,7 +12,7 @@ import BackHeader from '../../../components/Headers/BackHeader';
 import CustomText from '../../../components/CustomText/CustomText';
 import VirtualizedScrollView from '../../../components/VirtualisedScroll';
 import {FONTSIZE} from '../../../utils/Resource';
-import {useTheme} from '@react-navigation/native';
+import {useNavigation, useTheme} from '@react-navigation/native';
 import GlobalStyles from '../../../components/GlobalStyles/GlobalStyles';
 import {isEmptyImage} from '../../../utils/helperFunction';
 import {useTypedSelector} from '../../../Store/MainStore';
@@ -21,10 +21,14 @@ import {
   selectedOrderData,
 } from '../../../Store/Slices/AuthSlice';
 import moment from 'moment';
+import CustomButton from '../../../components/CustomButton';
+import {cancelOrder} from '../../../Services/AuthServices/AuthServices';
 
 const OrderDetails = () => {
   const {colors} = useTheme();
   const styles = getStyles(colors);
+  const navigate = useNavigation();
+
   const [OrderAddress, setOrderAddress] = useState({});
   const selectedOrder = useTypedSelector(selectedOrderData);
   console.log('🚀 ~ selectedOrder:', selectedOrder);
@@ -36,7 +40,14 @@ const OrderDetails = () => {
     );
     setOrderAddress(orderAddress);
   }, []);
-
+  const orderCancel = async () => {
+    try {
+      await cancelOrder(selectedOrder._id);
+      navigate.goBack();
+    } catch (error) {
+      console.log('🚀 ~ error:', error);
+    }
+  };
   const _renderItem = ({item}) => {
     return (
       <View style={styles.card}>
@@ -174,6 +185,11 @@ const OrderDetails = () => {
           ListFooterComponent={_ListFooterComponent}
         />
       </VirtualizedScrollView>
+      {selectedOrder.orderStatus === 'PLACED' && (
+        <View style={styles.Button}>
+          <CustomButton title="Cancel Order" onPress={orderCancel} />
+        </View>
+      )}
     </Container>
   );
 };
@@ -234,6 +250,10 @@ const getStyles = colors => {
       flexDirection: 'row',
       marginVertical: 4,
       width: '100%',
+    },
+    Button: {
+      paddingHorizontal: 20,
+      marginBottom: 30,
     },
   });
 };

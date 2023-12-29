@@ -23,6 +23,7 @@ const CustomInput = ({
   rightIconPress,
   defaultMainStyle,
   keyboardType,
+  editable = true,
   setValue = () => {},
   onFocus = () => {},
   onBlur = () => {},
@@ -93,6 +94,7 @@ const CustomInput = ({
           ]}>
           {leftIcon && leftIcon}
           <TextInput
+            editable={editable}
             autoCapitalize={'none'}
             style={[styles.defaultInput, inputStyle]}
             placeholder={placeholder}

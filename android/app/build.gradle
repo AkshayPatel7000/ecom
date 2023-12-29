@@ -93,9 +93,9 @@ android {
 
     compileSdkVersion rootProject.ext.compileSdkVersion
 
-    namespace "com.amazonappclone"
+    namespace "com.vidhitraders.app"
     defaultConfig {
-        applicationId "com.amazonappclone"
+        applicationId "com.vidhitraders.app"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1

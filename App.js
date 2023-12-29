@@ -11,6 +11,7 @@ import {setAuthToken, setUserProfile} from './src/Store/Slices/AuthSlice';
 import {COLOR, COLOR_DARK, LocalStorage} from './src/utils/Resource';
 import Loader from './src/components/Loader';
 import {selectIsLoading} from './src/Store/Slices/LoaderSlice';
+import {getAppLogo} from './src/Services/AuthServices/AuthServices';
 
 const App = () => {
   let isDark = false;
@@ -20,6 +21,7 @@ const App = () => {
 
   useEffect(() => {
     const init = async () => {
+      await getAppLogo();
       const LocalData = await LocalStorage.getUser();
       const LocalToken = await LocalStorage.getToken();
       if (LocalData) {

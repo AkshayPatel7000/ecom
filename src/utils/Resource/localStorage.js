@@ -169,7 +169,7 @@ class LocalStorage {
     try {
       const keys = ['TOKEN', 'USERDATA', 'LOGIN', 'USER', 'ISAUTHENTICATED'];
       console.log('---ASYNC DATA IS LOGOUT-->>', keys);
-      await AsyncStorage.multiRemove(keys);
+      await AsyncStorage.clear();
     } catch (e) {
       console.log('AsyncStorage Clear', e);
     }

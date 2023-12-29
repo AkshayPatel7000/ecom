@@ -1,4 +1,4 @@
-import {StyleSheet, Text, View} from 'react-native';
+import {Image, StyleSheet, Text, View} from 'react-native';
 import React, {useState} from 'react';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import CustomInput from '../../components/CustomInput';
@@ -12,10 +12,15 @@ import {AuthSVG, EmailSVG, KeySvg} from '../../assets/SVG';
 import Container from '../../components/Container';
 import StringsConstants from '../../utils/constants/Strings';
 import {signUp} from '../../Services/AuthServices/AuthServices';
+import * as Keychain from 'react-native-keychain';
+import {useTypedSelector} from '../../Store/MainStore';
+import {selectAppLogo} from '../../Store/Slices/AuthSlice';
 
 const SignupScreen = () => {
   const {colors, dark} = useTheme();
   const styles = getStyles(colors);
+  const appLogo = useTypedSelector(selectAppLogo);
+
   const [state, setState] = useState({
     firstName: '',
     firstNameHasError: false,
@@ -94,12 +99,10 @@ const SignupScreen = () => {
       }
     }
     if (input === 'password') {
-      if (!Strings.validatePasswordSpecial(password)) {
+      if (password.length <= 5) {
         return updateState({
           passwordHasError: true,
-          passwordErrorMsg:
-            StringsConstants.minimumFieldError('Password', 6) +
-            ' & includes one Special character.',
+          passwordErrorMsg: 'Password should be 6 char long',
         });
       } else {
         return updateState({
@@ -122,7 +125,10 @@ const SignupScreen = () => {
       lastNameHasError: false,
       lastNameErrorMsg: '',
     };
-
+    if (password.length <= 5) {
+      error.passwordHasError = true;
+      error.passwordErrorMsg = 'Password too short, Min 6 char';
+    }
     password.trim() === '' &&
       ((error.passwordHasError = true),
       (error.passwordErrorMsg =
@@ -147,7 +153,11 @@ const SignupScreen = () => {
         email: email?.toLowerCase(),
         password,
       };
-      await signUp(body);
+      const data = await signUp(body);
+      if (data) {
+        await Keychain.setGenericPassword(body.email, body.password);
+      }
+      console.log('object', data);
     } else {
       updateState(error);
     }
@@ -159,7 +169,23 @@ const SignupScreen = () => {
         overScrollMode="always"
         showsVerticalScrollIndicator={false}>
         <View style={styles.main}>
-          <View style={styles.svgContainer}>{/* <AuthSVG /> */}</View>
+          <View style={styles.svgContainer}>
+            {appLogo && (
+              <View
+                style={{
+                  height: 70,
+                  width: 70,
+                  bottom: 10,
+                  position: 'absolute',
+                }}>
+                <Image
+                  source={{uri: appLogo}}
+                  style={{height: '100%', width: '100%'}}
+                />
+              </View>
+            )}
+            {/* <AuthSVG /> */}
+          </View>
 
           <CustomText style={styles.heading}>Let’s you in </CustomText>
           <View style={styles.buttonContainer}>
@@ -245,6 +271,7 @@ const getStyles = colors => {
       justifyContent: 'center',
       alignItems: 'center',
       paddingVertical: moderateVerticalScale(36),
+      marginTop: '15%',
     },
     buttonContainer: {
       width: '90%',

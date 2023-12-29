@@ -42,13 +42,14 @@ const slice = createSlice({
 
     resetShopSlice: (state, action) => {
       state = {
+        allProducts: {},
         catagories: [],
         selectedCategory: {},
         subCatagories: [],
         selectedSubCategory: {},
         productList: [],
         selectedProduct: {},
-        allProducts: {},
+        subCatProduct: [],
       };
     },
   },

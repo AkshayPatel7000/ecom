@@ -16,10 +16,14 @@ import GlobalStyles from '../../../components/GlobalStyles/GlobalStyles';
 import {FONTSIZE} from '../../../utils/Resource';
 import CustomInput from '../../../components/CustomInput';
 import NormalInput from '../../../components/CustomInput/NormalInput';
+import {useTypedSelector} from '../../../Store/MainStore';
+import {selectUserProfile} from '../../../Store/Slices/AuthSlice';
 
 const Settings = () => {
   const {colors} = useTheme();
   const styles = getStyles(colors);
+  const user = useTypedSelector(selectUserProfile);
+  console.log('🚀 ~ user:', user);
   return (
     <Container>
       <BackHeader bigTitle={'Settings'} />
@@ -28,8 +32,14 @@ const Settings = () => {
           <View style={styles.passwordHeading}>
             <CustomText style={styles.heading}>Personal information</CustomText>
           </View>
-          <NormalInput placeHolder={'Matilda Brown'} editable={false} />
-          <NormalInput placeHolder={'matildabrown@mail.com'} editable={false} />
+          <NormalInput
+            placeHolder={`${user.firstName} ${user.lastName}`}
+            editable={false}
+          />
+          <NormalInput placeHolder={`${user.email}`} editable={false} />
+          {user?.mobile && (
+            <NormalInput placeHolder={`${user.mobile}`} editable={false} />
+          )}
         </View>
         <View style={styles.sections}>
           <View style={styles.passwordHeading}>
@@ -40,7 +50,7 @@ const Settings = () => {
           </View>
           <NormalInput placeHolder={'********'} editable={false} />
         </View>
-        <View style={styles.sections}>
+        {/* <View style={styles.sections}>
           <View style={styles.passwordHeading}>
             <CustomText style={styles.heading}>Notification</CustomText>
             <TouchableOpacity>
@@ -59,7 +69,7 @@ const Settings = () => {
             <CustomText>Delivery status changes</CustomText>
             <Switch />
           </View>
-        </View>
+        </View> */}
       </ScrollView>
     </Container>
   );

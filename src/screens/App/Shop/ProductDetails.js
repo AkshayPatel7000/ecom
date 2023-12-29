@@ -62,7 +62,7 @@ const ProductDetails = () => {
                 ₹
               </CustomText>
               <CustomText numberOfLines={0} style={styles.D_PRICE}>
-                {selectedProduct.discountedPrice}
+                {selectedProduct.discountedPrice?.toFixed(2)}
               </CustomText>
             </View>
             <CustomText
@@ -86,16 +86,22 @@ const ProductDetails = () => {
           </CustomText>
         </View>
       </ScrollView>
-      <View style={styles.Button}>
-        {!isItemInCart() ? (
-          <CustomButton title="ADD TO CART" onPress={addToCartHandler} />
-        ) : (
-          <CustomButton
-            title="VIEW CART"
-            onPress={() => navigate(RoutesName.CHAT)}
-          />
-        )}
-      </View>
+      {selectedProduct.quantity > 0 ? (
+        <View style={styles.Button}>
+          {!isItemInCart() ? (
+            <CustomButton title="ADD TO CART" onPress={addToCartHandler} />
+          ) : (
+            <CustomButton
+              title="VIEW CART"
+              onPress={() => navigate(RoutesName.CHAT)}
+            />
+          )}
+        </View>
+      ) : (
+        <View style={styles.Button}>
+          <CustomButton title="OUT OF STOCK" isDisable={true} />
+        </View>
+      )}
     </Container>
   );
 };

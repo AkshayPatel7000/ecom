@@ -6,6 +6,7 @@ import {
   setCatagoriesItems,
   setSubCatagoriesItems,
 } from '../../Store/Slices/ShopSlice';
+import {getMyOrders} from '../AuthServices/AuthServices';
 import client from '../Client/Client';
 import Endpoints from '../Client/Endpoints';
 import {getCart} from './CartServices';
@@ -28,6 +29,7 @@ export const createOrder = async body => {
     return {error: 'Please select valid address.'};
   }
 };
+
 export const getAllCategory = async () => {
   try {
     console.log('first');

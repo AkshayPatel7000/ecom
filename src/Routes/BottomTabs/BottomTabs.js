@@ -17,6 +17,7 @@ import * as SVG from '../../assets/SVG';
 import {useTypedSelector} from '../../Store/MainStore';
 import {selectCartItems} from '../../Store/Slices/CartSlice';
 import CustomText from '../../components/CustomText/CustomText';
+import {Host} from 'react-native-portalize';
 
 const BottomTab = createBottomTabNavigator();
 function MyTabBar({state, descriptors, navigation}) {
@@ -111,46 +112,48 @@ function MyTabBar({state, descriptors, navigation}) {
 const BottomTabs = () => {
   const {colors, dark} = useTheme();
   return (
-    <BottomTab.Navigator
-      tabBar={tabsProps => <MyTabBar {...tabsProps} />}
-      screenOptions={{headerShown: false, tabBarHideOnKeyboard: true}}
-      options={{tabBarHideOnKeyboard: true}}
-      initialRouteName="Dashboard">
-      <BottomTab.Screen
-        name={RoutesName.HOME}
-        options={{
-          tabBarHideOnKeyboard: true,
-          icon: <SVG.HomeSVG />,
-          iconInActive: <SVG.HomeActiveSVG />,
-        }}
-        component={Home}
-      />
-      <BottomTab.Screen
-        name={RoutesName.SHOP}
-        options={{
-          icon: <SVG.Shop />,
-          iconInActive: <SVG.ShopActive />,
-        }}
-        component={Shop}
-      />
-      <BottomTab.Screen
-        name={RoutesName.CHAT}
-        options={{
-          icon: <SVG.Cart />,
-          iconInActive: <SVG.CartActive />,
-        }}
-        component={MyBag}
-      />
+    <Host>
+      <BottomTab.Navigator
+        tabBar={tabsProps => <MyTabBar {...tabsProps} />}
+        screenOptions={{headerShown: false, tabBarHideOnKeyboard: true}}
+        options={{tabBarHideOnKeyboard: true}}
+        initialRouteName="Dashboard">
+        <BottomTab.Screen
+          name={RoutesName.HOME}
+          options={{
+            tabBarHideOnKeyboard: true,
+            icon: <SVG.HomeSVG />,
+            iconInActive: <SVG.HomeActiveSVG />,
+          }}
+          component={Home}
+        />
+        <BottomTab.Screen
+          name={RoutesName.SHOP}
+          options={{
+            icon: <SVG.Shop />,
+            iconInActive: <SVG.ShopActive />,
+          }}
+          component={Shop}
+        />
+        <BottomTab.Screen
+          name={RoutesName.CHAT}
+          options={{
+            icon: <SVG.Cart />,
+            iconInActive: <SVG.CartActive />,
+          }}
+          component={MyBag}
+        />
 
-      <BottomTab.Screen
-        name={RoutesName.MENU}
-        options={{
-          icon: <SVG.MenuSVG />,
-          iconInActive: <SVG.MenuActiveSVG />,
-        }}
-        component={Menu}
-      />
-    </BottomTab.Navigator>
+        <BottomTab.Screen
+          name={RoutesName.MENU}
+          options={{
+            icon: <SVG.MenuSVG />,
+            iconInActive: <SVG.MenuActiveSVG />,
+          }}
+          component={Menu}
+        />
+      </BottomTab.Navigator>
+    </Host>
   );
 };
 export default BottomTabs;

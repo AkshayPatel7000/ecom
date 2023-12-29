@@ -19,7 +19,8 @@ export default URLS = {
     `/api/products?color=&size=&minPrice=${minPrice}&maxPrice=${maxPrice}&minDiscount=${minDiscount}&category=${category}&stock=${stock}&sort=${sort}&pageNumber=${pageNumber}&pageSize=${pageSize}`,
   GET_ALL_CAT: ({level = 1, pageNumber = 1, pageSize = '100'}) =>
     `/api/category/getAllCategory?level=${level}&pageNumber=${pageNumber}&pageSize=${pageSize}`,
-
+  CANCEL_ORDER: id => `/api/admin/orders/${id}/cancel`,
+  UPDATE_USER: '/api/users/updateProfile',
   GET_ALL_PRODUCTS: (
     minPrice = 0,
     maxPrice = 10000,
@@ -38,6 +39,7 @@ export default URLS = {
   GET_MY_ORDERS: (orderStatus = '') =>
     `/api/orders/user?orderStatus=${orderStatus}`,
   GET_DASHBOARD: (limit = 100) => `/api/dashboard/dashboardData?limit=${limit}`,
+  APP_LOGO: '/api/admin/profile',
   GET_ALL_CATEGORIES: (level = 1, pageNumber = 1, pageSize = 100) =>
     `/api/category/getAllCategory?level=${level}&pageNumber=${pageNumber}&pageSize=${pageSize}`,
 };

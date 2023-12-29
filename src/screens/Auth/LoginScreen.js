@@ -1,6 +1,6 @@
 import {useNavigation, useTheme} from '@react-navigation/native';
 import React, {useEffect, useState} from 'react';
-import {StyleSheet, View} from 'react-native';
+import {Image, StyleSheet, View} from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {AuthSVG, EmailSVG, KeySvg} from '../../assets/SVG';
@@ -12,10 +12,14 @@ import {FONTFAMILY, FONTSIZE, RoutesName, Strings} from '../../utils/Resource';
 import StringsConstants from '../../utils/constants/Strings';
 import {moderateScale, moderateVerticalScale} from '../../utils/responsive';
 import {login} from '../../Services/AuthServices/AuthServices';
-
+import * as Keychain from 'react-native-keychain';
+import {useTypedSelector} from '../../Store/MainStore';
+import {selectAppLogo} from '../../Store/Slices/AuthSlice';
 const LoginScreen = () => {
   const {colors, dark} = useTheme();
   const styles = getStyles(colors);
+  const appLogo = useTypedSelector(selectAppLogo);
+
   const [state, setState] = useState({
     email: '',
     emailHasError: false,
@@ -41,7 +45,29 @@ const LoginScreen = () => {
   const updateState = value => {
     setState({...state, ...value});
   };
-
+  useEffect(() => {
+    const init = async () => {
+      try {
+        // Retrieve the credentials
+        const credentials = await Keychain.getGenericPassword();
+        if (credentials) {
+          updateState({
+            email: credentials.username,
+            password: credentials.password,
+          });
+          console.log(
+            'Credentials successfully loaded for user ' + credentials.username,
+          );
+        } else {
+          console.log('No credentials stored');
+        }
+      } catch (error) {
+        console.log("Keychain couldn't be accessed!", error);
+      }
+      // await Keychain.resetGenericPassword();
+    };
+    init();
+  }, []);
   const checkValidation = input => {
     if (input === 'email') {
       if (!Strings.validateEmail(email)) {
@@ -97,7 +123,10 @@ const LoginScreen = () => {
         email: email?.toLowerCase(),
         password,
       };
-      await login(body);
+      const data = await login(body);
+      if (data) {
+        await Keychain.setGenericPassword(body.email, body.password);
+      }
     } else {
       updateState(error);
     }
@@ -111,9 +140,31 @@ const LoginScreen = () => {
         <View style={styles.main}>
           <View style={styles.svgContainer}>
             <AuthSVG />
+            {appLogo && (
+              <View
+                style={{
+                  height: 70,
+                  width: 70,
+                  bottom: 10,
+                  position: 'absolute',
+                }}>
+                <Image
+                  source={{uri: appLogo}}
+                  style={{height: '100%', width: '100%'}}
+                />
+              </View>
+            )}
           </View>
 
-          <CustomText style={styles.heading}>Let’s you in </CustomText>
+          <View
+            style={{
+              flexDirection: 'row',
+              width: '100%',
+              justifyContent: 'space-evenly',
+              alignItems: 'center',
+            }}>
+            <CustomText style={styles.heading}>Let’s you in </CustomText>
+          </View>
           <View style={styles.buttonContainer}>
             <View style={{width: '100%', marginTop: moderateScale(15)}}>
               <CustomInput
@@ -183,6 +234,7 @@ const getStyles = colors => {
       justifyContent: 'center',
       alignItems: 'center',
       paddingVertical: moderateVerticalScale(36),
+      position: 'relative',
     },
     buttonContainer: {
       width: '90%',

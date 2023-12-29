@@ -56,7 +56,7 @@ const ProductCard = ({item, onPress}) => {
             </CustomText>
           </View>
           <CustomText style={[styles.amunt, styles.qty]}>
-            ₹ {item.discountedPrice}
+            ₹ {item.discountedPrice?.toFixed(2)}
           </CustomText>
           {/* <CustomText style={[styles.amunt, styles.qty]}>100Kg</CustomText> */}
         </View>
@@ -110,7 +110,7 @@ const getStyles = colors => {
       ...GlobalStyles.w400,
     },
     amunt: {
-      fontSize: FONTSIZE.Text16,
+      fontSize: FONTSIZE.Text14,
       ...GlobalStyles.w500,
       color: colors.GRAY100,
     },
