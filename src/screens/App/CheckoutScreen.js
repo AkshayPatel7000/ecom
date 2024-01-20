@@ -24,7 +24,7 @@ import {
 import CustomButton from '../../components/CustomButton';
 import RazorpayCheckout from 'react-native-razorpay';
 import {useTypedSelector} from '../../Store/MainStore';
-import {selectUserProfile} from '../../Store/Slices/AuthSlice';
+import {selectAppLogo, selectUserProfile} from '../../Store/Slices/AuthSlice';
 import CustomInput from '../../components/CustomInput';
 import {selectCartItems} from '../../Store/Slices/CartSlice';
 import {createOrder} from '../../Services/AppServices/ShopService';
@@ -38,6 +38,7 @@ const CheckoutScreen = props => {
   const cart = useTypedSelector(selectCartItems);
   const userData = useTypedSelector(selectUserProfile);
   const [useDefaultAddress, setUseDefaultAddress] = useState(true);
+  const appLogo = useTypedSelector(selectAppLogo);
 
   useFocusEffect(
     useCallback(() => {
@@ -59,10 +60,6 @@ const CheckoutScreen = props => {
             });
           }
         }
-        console.log(
-          '🛺 ~ file: ShippingAddress.js:22 ~ useEffect ~ data:',
-          data,
-        );
       };
       getAddress();
     }, [props]),
@@ -216,11 +213,11 @@ const CheckoutScreen = props => {
   const onOrderPlace = orderBody => {
     var options = {
       description: 'Credits towards consultation',
-      image: 'https://i.imgur.com/3g7nmJC.png',
+      image: appLogo,
       currency: 'INR',
       key: 'rzp_test_V58aNPoa7wSiXe', // Your api key
       amount: cart.totalDiscountedPrice * 100,
-      name: 'foo',
+      name: 'Vidhi Traders',
       prefill: {
         email: userData.email,
         contact: phone,
@@ -228,14 +225,13 @@ const CheckoutScreen = props => {
       },
       theme: {color: '#38CCAA'},
     };
-    console.log('🚀 ~ cart:', options);
 
     RazorpayCheckout.open(options)
       .then(async data => {
         const {razorpay_order_id, razorpay_payment_id, razorpay_signature} =
           data;
         const orderData = await createOrder(orderBody);
-        console.log('🚀 ~ orderData:', orderData);
+
         if (orderData.error) {
           return showError('Please select a valid address');
         }
@@ -289,12 +285,7 @@ const CheckoutScreen = props => {
         return showError('Please select a valid address');
       }
       onOrderPlace(ordersBody);
-    } catch (error) {
-      console.log(
-        '🛺 ~ file: CheckoutScreen.js:255 ~ CreateNewOrder ~ error:',
-        error,
-      );
-    }
+    } catch (error) {}
   };
   return (
     <Container>

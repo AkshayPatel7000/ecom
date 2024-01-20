@@ -16,41 +16,32 @@ export const getAllProducts = async () => {
     const {data} = await client.get(Endpoints.GET_ALL_PRODUCTS());
     store.dispatch(setAllProduct(data));
     return data;
-  } catch (error) {
-    console.log('🛺 ~ file: ShopService.js:9 ~ getAllProducts ~ error:', error);
-  }
+  } catch (error) {}
 };
 export const createOrder = async body => {
   try {
     const {data} = await client.post(Endpoints.CREATE_ORDER, body);
     return data;
   } catch (error) {
-    console.log('🛺 ~ file: ShopService.js:21 ~ createOrder ~ error:', error);
     return {error: 'Please select valid address.'};
   }
 };
 
 export const getAllCategory = async () => {
   try {
-    console.log('first');
     const {data} = await client.get(Endpoints.GET_ALL_CATEGORIES());
 
     store.dispatch(setCatagoriesItems(data.category.Categorylist));
     return data;
-  } catch (error) {
-    console.log('🛺 ~ file: ShopService.js:21 ~ createOrder ~ error:', error);
-  }
+  } catch (error) {}
 };
 export const getSubCategorysById = async id => {
   try {
-    console.log('id', id);
     const {data} = await client.get(Endpoints.SUB_CAT_WITH_ID + id);
 
     store.dispatch(setSubCatagoriesItems(data.category.Categorylist));
     return data;
-  } catch (error) {
-    console.log('🛺 ~ file: ShopService.js:21 ~ createOrder ~ error:', error);
-  }
+  } catch (error) {}
 };
 export const getAllSubCategory = async () => {
   try {
@@ -58,9 +49,7 @@ export const getAllSubCategory = async () => {
 
     store.dispatch(setSubCatagoriesItems(data.category.Categorylist));
     return data;
-  } catch (error) {
-    console.log('🛺 ~ file: ShopService.js:21 ~ createOrder ~ error:', error);
-  }
+  } catch (error) {}
 };
 export const getProductBySubCat = async category => {
   try {
@@ -70,7 +59,5 @@ export const getProductBySubCat = async category => {
 
     store.dispatch(setCatProduct(data));
     return data;
-  } catch (error) {
-    console.log('🛺 ~ file: ShopService.js:21 ~ createOrder ~ error:', error);
-  }
+  } catch (error) {}
 };

@@ -31,7 +31,6 @@ const OrderDetails = () => {
 
   const [OrderAddress, setOrderAddress] = useState({});
   const selectedOrder = useTypedSelector(selectedOrderData);
-  console.log('🚀 ~ selectedOrder:', selectedOrder);
   const userProfile = useTypedSelector(selectUserProfile);
   useEffect(() => {
     const AddressId = selectedOrder.shippingAddress;
@@ -44,9 +43,7 @@ const OrderDetails = () => {
     try {
       await cancelOrder(selectedOrder._id);
       navigate.goBack();
-    } catch (error) {
-      console.log('🚀 ~ error:', error);
-    }
+    } catch (error) {}
   };
   const _renderItem = ({item}) => {
     return (

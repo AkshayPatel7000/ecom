@@ -13,6 +13,7 @@
     "build": "watchman watch-del-all && cd android && ./gradlew assembleRelease && cd .. && open ./android/app/build/outputs/apk/release",
     "build:win": "cd android && ./gradlew assembleRelease && cd .. && explorer .\\android\\app\\build\\outputs\\apk\\release",
     "build_B": "watchman watch-del-all && cd android && ./gradlew bundleRelease && cd .. && open ./android/app/build/outputs/bundle/release",
+    "build_B:win": "cd android && ./gradlew bundleRelease && cd .. && explorer .\\android\\app\\build\\outputs\\bundle\\release",
     "android_R": "react-native run-android --variant=release",
     "pod": "cd ios && pod install --repo-update && cd .."
   },

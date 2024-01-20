@@ -23,7 +23,6 @@ const Settings = () => {
   const {colors} = useTheme();
   const styles = getStyles(colors);
   const user = useTypedSelector(selectUserProfile);
-  console.log('🚀 ~ user:', user);
   return (
     <Container>
       <BackHeader bigTitle={'Settings'} />

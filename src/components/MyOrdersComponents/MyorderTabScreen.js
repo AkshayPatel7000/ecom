@@ -35,12 +35,11 @@ const MyOrderTabScreen = props => {
     navigate(RoutesName.ORDER_DETAILS);
   };
   const _renderItem = ({item}) => {
-    console.log('🚀 ~ item:', item.orderStatus);
     return (
       <View style={styles.itemCard}>
         <View style={styles.orderNoContainer}>
           <CustomText style={[styles.dateText]} numberOfLines={2}>
-            {item.product.title}
+            {item?.product?.title}
           </CustomText>
           {/* <CustomText style={[styles.textOrderNo, GlobalStyles.W500]}>
             {item.product.title}
@@ -54,11 +53,11 @@ const MyOrderTabScreen = props => {
           <View style={styles.orderNoContainer}>
             <CustomText style={styles.textOrderNo}>Order № </CustomText>
             <CustomText style={[styles.textOrderNo, {width: 150}]}>
-              {item.order_id}
+              {item?.order_id}
             </CustomText>
           </View>
           <CustomText style={[styles.dateText]}>
-            {moment(item.createdAt).format('ll')}
+            {moment(item?.createdAt).format('ll')}
           </CustomText>
         </View>
 
@@ -72,7 +71,7 @@ const MyOrderTabScreen = props => {
                 GlobalStyles.W500,
                 {color: colors.TEXT},
               ]}>
-              {item.quantity}
+              {item?.quantity}
             </CustomText>
           </View>
           <View style={styles.orderNoContainer}>
@@ -83,7 +82,7 @@ const MyOrderTabScreen = props => {
                 GlobalStyles.W500,
                 {color: colors.TEXT},
               ]}>
-              {item.discountedPrice}
+              {item?.discountedPrice}
             </CustomText>
           </View>
         </View>
@@ -104,7 +103,7 @@ const MyOrderTabScreen = props => {
           </TouchableOpacity>
           <CustomText
             style={[styles.dateText, {color: colors[item.orderStatus]}]}>
-            {item.orderStatus}
+            {item?.orderStatus}
           </CustomText>
         </View>
       </View>

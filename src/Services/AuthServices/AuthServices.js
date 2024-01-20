@@ -25,7 +25,6 @@ export const login = async body => {
     getCarousel();
     return data;
   } catch (error) {
-    console.log('🛺 ~ file: AuthServices.js:18 ~ login ~ error:', error);
     store.dispatch(setIsLoading(false));
     showError(error.message);
   }
@@ -42,8 +41,6 @@ export const signUp = async body => {
     return data;
   } catch (error) {
     store.dispatch(setIsLoading(false));
-    console.log('🛺 ~ file: AuthServices.js:31 ~ signUp ~ error:', error);
-
     showError(error.message);
   }
 };
@@ -56,13 +53,7 @@ export const FCM_UPDATE = async () => {
       FCMToken: FCM.registerToken,
       PCFCMToken: '',
     });
-    console.log('🛺 ~ FCM UPDATED:', data);
-  } catch (error) {
-    console.log(
-      '🛺 ~ file: AuthServices.js:31 ~ constFCM_UPDATE=async ~ error:',
-      error,
-    );
-  }
+  } catch (error) {}
 };
 
 export const getUserProfile = async token => {
@@ -73,12 +64,7 @@ export const getUserProfile = async token => {
 
     LocalStorage.storeUser({...data});
     store.dispatch(setUserProfile({...data}));
-  } catch (error) {
-    console.log(
-      '🚀 ~ file: AuthServices.js:43 ~ getUserProfile ~ error:',
-      error,
-    );
-  }
+  } catch (error) {}
 };
 export const getAppLogo = async token => {
   try {
@@ -87,12 +73,7 @@ export const getAppLogo = async token => {
     if (data.profile.logo) {
       store.dispatch(setAppLogo(data.profile.logo));
     }
-  } catch (error) {
-    console.log(
-      '🚀 ~ file: AuthServices.js:43 ~ getUserProfile ~ error:',
-      error,
-    );
-  }
+  } catch (error) {}
 };
 const userLoginData = async tkn => {
   try {
@@ -120,52 +101,38 @@ export const uploadImage = async image => {
     };
     const {data} = await client.post(URLS.UPLOAD_IMAGE, formData, {headers});
     return data.path;
-  } catch (error) {
-    console.log(
-      '🚀 ~ file: AuthServices.js:120 ~ getDepartments ~ error:',
-      error,
-    );
-  }
+  } catch (error) {}
 };
 export const updateUser = async body => {
   try {
     const token = await LocalStorage.getToken();
 
     const {data} = await client.put(URLS.UPDATE_USER, body);
-    console.log('🚀 ~ data:', data);
     LocalStorage.storeUser({...data});
     store.dispatch(setUserProfile({...data}));
     showSuccess('Profile Updated');
     return data;
-  } catch (error) {
-    console.log('🛺 ~ file: AuthServices.js:186 ~ updateUser ~ error:', error);
-  }
+  } catch (error) {}
 };
 export const getCarousel = async () => {
   try {
     const {data} = await client.get(URLS.GET_CAROUSEL);
     store.dispatch(setCarousel(data.carousel?.Carousellist));
-  } catch (error) {
-    console.log('🛺 ~ file: AuthServices.js:124 ~ error:', error);
-  }
+  } catch (error) {}
 };
 export const getDashBoard = async () => {
   try {
     const {data} = await client.get(URLS.GET_DASHBOARD());
 
     store.dispatch(setDashboard(data));
-  } catch (error) {
-    console.log('🛺 ~ file: AuthServices.js:137 ~ getMyOrders ~ error:', error);
-  }
+  } catch (error) {}
 };
 export const getMyOrders = async (status = 'PLACED') => {
   try {
     const {data} = await client.get(URLS.GET_MY_ORDERS(status));
 
     store.dispatch(setMyOrders({data, status}));
-  } catch (error) {
-    console.log('🛺 ~ file: AuthServices.js:137 ~ getMyOrders ~ error:', error);
-  }
+  } catch (error) {}
 };
 export const cancelOrder = async id => {
   try {
@@ -173,7 +140,6 @@ export const cancelOrder = async id => {
     getMyOrders();
     return data;
   } catch (error) {
-    console.log('🛺 ~ file: ShopService.js:21 ~ createOrder ~ error:', error);
     return {error: 'Please select valid address.'};
   }
 };

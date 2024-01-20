@@ -62,7 +62,6 @@ const Profile = props => {
     setState({...state, ...value});
   };
   const checkValidation = input => {
-    console.log('🚀 ~ input:', input);
     if (input === 'firstNameUpdate') {
       if (!Strings.validateName(firstNameUpdate)) {
         return updateState({
@@ -176,10 +175,8 @@ const Profile = props => {
       if (data) {
         modalizeRef.current.close();
       }
-      console.log('object', data);
     } else {
       updateState(error);
-      console.log('🚀 ~ error:', error);
     }
   };
   return (

@@ -23,7 +23,6 @@ const ShippingAddress = () => {
       if (data) {
         setDefaultAddress(data);
       }
-      console.log('🛺 ~ file: ShippingAddress.js:22 ~ useEffect ~ data:', data);
     };
     getAddress();
   }, []);

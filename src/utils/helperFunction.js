@@ -22,7 +22,10 @@ const showSuccess = message => {
   });
 };
 
-const isEmptyImage = image => {
+const isEmptyImage = images => {
+  let image =
+    typeof images === 'string' ? images : images.length > 0 ? images[0] : null;
+
   var imageUrl = image?.includes('http')
     ? image
     : image?.includes('file:')
@@ -85,9 +88,7 @@ const urlencodedFormData = body => {
 
 const request_PERMISSIONS = async permission => {
   try {
-    request(permission).then(result => {
-      console.log('🚀 ~ file: helperFunction.js:8 ~ request ~ result:', result);
-    });
+    request(permission).then(result => {});
   } catch (err) {
     console.warn(err);
   }

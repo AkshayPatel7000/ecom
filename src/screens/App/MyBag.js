@@ -36,8 +36,6 @@ const MyBag = () => {
   };
 
   const updateQTY = (item, value) => {
-    console.log(item.quantity + value);
-
     UpdateCart(item._id, item.quantity + value);
   };
 

@@ -55,9 +55,6 @@ const LoginScreen = () => {
             email: credentials.username,
             password: credentials.password,
           });
-          console.log(
-            'Credentials successfully loaded for user ' + credentials.username,
-          );
         } else {
           console.log('No credentials stored');
         }

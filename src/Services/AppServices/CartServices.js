@@ -11,8 +11,6 @@ export const getCart = async () => {
 
     store.dispatch(setCartItems(data));
   } catch (error) {
-    console.log('🛺 ~ file: AuthServices.js:18 ~ login ~ error:', error);
-
     showError(error.message);
   }
 };
@@ -23,7 +21,6 @@ export const addToCart = async id => {
 
     await getCart();
   } catch (error) {
-    console.log('🛺 ~ file: CartServices.js:27 ~ addToCart ~ error:', error);
     store.dispatch(setIsLoading(false));
   }
 };
@@ -33,11 +30,6 @@ export const RemoveFromCart = async id => {
     const {data} = await client.delete(Endpoints.REMOVE_FROM_CART(id));
     await getCart();
   } catch (error) {
-    console.log(
-      '🛺 ~ file: CartServices.js:24 ~ RemoveFromCart ~ error:',
-      error,
-    );
-
     showError(error.message);
   }
 };
@@ -61,8 +53,6 @@ export const VerifyOrder = async (
     );
     getCart();
   } catch (error) {
-    console.log('🛺 ~ file: CartServices.js:51 ~ UpdateCart ~ error:', error);
-
     showError(error.message);
   }
 };
@@ -73,8 +63,6 @@ export const UpdateCart = async (id, qty) => {
     });
     getCart();
   } catch (error) {
-    console.log('🛺 ~ file: CartServices.js:49 ~ UpdateCart ~ error:', error);
-
     showError(error.message);
   }
 };
