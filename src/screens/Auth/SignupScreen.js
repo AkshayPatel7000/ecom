@@ -50,8 +50,8 @@ const SignupScreen = () => {
     passwordErrorMsg,
   } = state;
   const navigation = useNavigation();
-  const moveTo = route => {
-    navigation.navigate(route);
+  const moveTo = (route, url) => {
+    navigation.navigate(route, {url});
   };
 
   const updateState = value => {
@@ -195,6 +195,7 @@ const SignupScreen = () => {
                 leftIcon={<EmailSVG dark={dark} />}
                 setValue={e => updateState({firstName: e})}
                 value={firstName}
+                placeholder="John"
                 containerStyle={styles.email}
                 hasError={firstNameHasError}
                 errorMsg={firstNameErrorMsg}
@@ -205,6 +206,7 @@ const SignupScreen = () => {
                 leftIcon={<EmailSVG dark={dark} />}
                 setValue={e => updateState({lastName: e})}
                 value={lastName}
+                placeholder="Deo"
                 containerStyle={styles.email}
                 hasError={lastNameHasError}
                 errorMsg={lastNameErrorMsg}
@@ -237,15 +239,35 @@ const SignupScreen = () => {
               title="Sign Up"
               containerStyles={styles.social}
             />
+            <View style={styles.tandpText}>
+              <CustomText>By signup you agree to our </CustomText>
+              <TouchableOpacity
+                style={styles.bottomSignUp}
+                onPress={() =>
+                  moveTo(RoutesName.WEB, StringsConstants.urls.T_AND_C)
+                }>
+                <CustomText style={styles.forgotText}> T&C</CustomText>
+              </TouchableOpacity>
+              <CustomText> and </CustomText>
+              <TouchableOpacity
+                style={styles.bottomSignUp}
+                onPress={() =>
+                  moveTo(RoutesName.WEB, StringsConstants.urls.PRIVACY_POLICY)
+                }>
+                <CustomText style={styles.forgotText}>
+                  Privacy Policy.
+                </CustomText>
+              </TouchableOpacity>
+            </View>
           </View>
         </View>
       </KeyboardAwareScrollView>
       <View style={styles.bottomText}>
-        <CustomText>Already have an account.</CustomText>
+        <CustomText>Already have an account. </CustomText>
         <TouchableOpacity
           style={styles.bottomSignUp}
           onPress={() => moveTo(RoutesName.LOGIN)}>
-          <CustomText style={styles.forgotText}>Login</CustomText>
+          <CustomText style={styles.forgotText}> Login</CustomText>
         </TouchableOpacity>
       </View>
     </Container>
@@ -296,8 +318,13 @@ const getStyles = colors => {
       justifyContent: 'center',
       alignItems: 'center',
     },
+    tandpText: {
+      flexDirection: 'row',
+
+      alignItems: 'center',
+    },
     bottomSignUp: {
-      marginLeft: 10,
+      // marginLeft: 10,
     },
   });
 };

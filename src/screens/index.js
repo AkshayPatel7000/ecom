@@ -15,3 +15,4 @@ export {default as Shop} from './App/Shop/Shop';
 export {default as SubCatagories} from './App/Shop/SubCatagories';
 export {default as ProductList} from './App/Shop/ProductList';
 export {default as ProductDetails} from './App/Shop/ProductDetails';
+export {default as WebViewScreen} from './App/webView';

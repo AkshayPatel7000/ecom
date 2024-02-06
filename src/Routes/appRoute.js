@@ -14,6 +14,7 @@ import {
   Settings,
   ShippingAddress,
   SubCatagories,
+  WebViewScreen,
 } from '../screens';
 
 const AppRoute = Stack => {
@@ -33,6 +34,8 @@ const AppRoute = Stack => {
       <Stack.Screen name={RoutesName.SETTINGS} component={Settings} />
       <Stack.Screen name={RoutesName.ORDER_DETAILS} component={OrderDetails} />
       <Stack.Screen name={RoutesName.CHECKOUT} component={CheckoutScreen} />
+      <Stack.Screen name={RoutesName.WEB} component={WebViewScreen} />
+
       <Stack.Screen
         name={RoutesName.ADD_EDIT_ADDRESS}
         component={AddEditAddress}

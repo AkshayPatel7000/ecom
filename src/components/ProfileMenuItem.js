@@ -18,6 +18,7 @@ import CustomText from './CustomText/CustomText';
 import GlobalStyles from './GlobalStyles/GlobalStyles';
 import {setCartItems} from '../Store/Slices/CartSlice';
 import {resetShopSlice} from '../Store/Slices/ShopSlice';
+import StringsConstants from '../utils/constants/Strings';
 
 const ProfileMenuItem = () => {
   const {colors} = useTheme();
@@ -25,8 +26,8 @@ const ProfileMenuItem = () => {
   const navigation = useNavigation();
   const dispatch = useAppDispatch();
 
-  const moveTo = screen => {
-    navigation.navigate(screen);
+  const moveTo = (screen, url) => {
+    navigation.navigate(screen, {url});
   };
   const onLogOutPress = () => {
     LocalStorage.LocalStorageLogOut();
@@ -78,6 +79,17 @@ const ProfileMenuItem = () => {
           <CustomText style={styles.subTitle}>
             Notifications, password
           </CustomText>
+        </View>
+        <RightArrowSVG />
+      </TouchableOpacity>
+      <TouchableOpacity
+        style={styles.button}
+        onPress={() =>
+          moveTo(RoutesName.WEB, StringsConstants.urls.REFUND_POLICY)
+        }>
+        <View>
+          <CustomText style={styles.title}>Policy</CustomText>
+          <CustomText style={styles.subTitle}>Refund, Return</CustomText>
         </View>
         <RightArrowSVG />
       </TouchableOpacity>
@@ -140,6 +152,7 @@ const getStyles = colors => {
     },
     logout: {
       marginTop: 35,
+      marginBottom: 20,
     },
   });
 };

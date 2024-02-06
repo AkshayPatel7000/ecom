@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {LoginScreen, SignupScreen} from '../screens';
+import {LoginScreen, SignupScreen, WebViewScreen} from '../screens';
 import {RoutesName} from '../utils/Resource';
 
 const AuthStack = Stack => {
@@ -11,6 +11,7 @@ const AuthStack = Stack => {
       }}>
       <Stack.Screen name={RoutesName.LOGIN} component={LoginScreen} />
       <Stack.Screen name={RoutesName.SIGNUP} component={SignupScreen} />
+      <Stack.Screen name={RoutesName.WEB} component={WebViewScreen} />
     </Stack.Navigator>
   );
 };
