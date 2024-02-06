@@ -215,7 +215,8 @@ const CheckoutScreen = props => {
       description: 'Credits towards consultation',
       image: appLogo,
       currency: 'INR',
-      key: 'rzp_test_V58aNPoa7wSiXe', // Your api key
+      // key: 'rzp_test_V58aNPoa7wSiXe', // Your api key
+      key: 'rzp_test_Dm4PdaaZGNqDII', // Your api key
       amount: cart.totalDiscountedPrice * 100,
       name: 'Vidhi Traders',
       prefill: {
