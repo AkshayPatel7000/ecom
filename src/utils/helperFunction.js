@@ -24,7 +24,7 @@ const showSuccess = message => {
 
 const isEmptyImage = images => {
   let image =
-    typeof images === 'string' ? images : images.length > 0 ? images[0] : null;
+    typeof images === 'string' ? images : images?.length > 0 ? images[0] : null;
 
   var imageUrl = image?.includes('http')
     ? image

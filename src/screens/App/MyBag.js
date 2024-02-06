@@ -89,7 +89,7 @@ const MyBag = () => {
                 {item.quantity}
               </CustomText>
               <TouchableOpacity
-                disabled={item.quantity == item.product.quantity}
+                disabled={item?.quantity == item.product?.quantity}
                 style={styles.I_D_BUTTON}
                 onPress={() => updateQTY(item, 1)}>
                 <CustomText style={styles.BUTTON_TEXT}>+</CustomText>

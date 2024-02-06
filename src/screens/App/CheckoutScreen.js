@@ -225,6 +225,18 @@ const CheckoutScreen = props => {
         name: `${userData.firstName} ${userData.lastName}`,
       },
       theme: {color: '#38CCAA'},
+      config: {
+        display: {
+          hide: [
+            {method: 'paylater'},
+            {method: 'emi'},
+            {method: 'wallet'},
+            {method: 'card'},
+            {method: 'netbanking'},
+          ],
+          preferences: {show_default_blocks: true},
+        },
+      },
     };
 
     RazorpayCheckout.open(options)
