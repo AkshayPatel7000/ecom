@@ -273,7 +273,7 @@ const Profile = props => {
                   hasError={mobileHasError}
                   errorMsg={mobileErrorMsg}
                   onBlur={() => checkValidation('mobileUpdate')}
-                  keyboardType={'snumber-pad'}
+                  keyboardType={'number-pad'}
                 />
                 <CustomInput
                   title="email"
