@@ -33,7 +33,7 @@ import encodeUtf8 from '../../utils/Resource/utf8';
 const CheckoutScreen = props => {
   const pgData = {
     environmentForSDK: 'SANDBOX',
-    merchantId: 'PGTESTPAYUAT139',
+    merchantId: 'PGTESTPAYUAT',
     appId: '',
     enableLogging: true,
   };
@@ -41,7 +41,7 @@ const CheckoutScreen = props => {
   const packageName = '';
   const appSchema = '';
   const apiEndPoint = '/pg/v1/pay';
-  const saltKey = '695d0547-3728-4b1c-825d-996479133615';
+  const saltKey = '099eb0cd-02cf-4e2a-8aca-3e6c6aff0399';
   const saltIndex = '1';
   const {colors} = useTheme();
   const styles = getStyles(colors);
@@ -96,25 +96,27 @@ const CheckoutScreen = props => {
   }, []);
 
   const getCheckSum = () => {
+    const tid = 'MT' + Date.now();
     const apiReq = {
       merchantId: pgData.merchantId,
-      merchantTransactionId: 'MT' + Date.now(),
+      merchantTransactionId: tid,
       merchantUserId: 'MUID123',
-      amount: cart.totalDiscountedPrice,
-      callbackUrl: 'https://webhook.site/callback-url',
+      amount: cart.totalDiscountedPrice * 100,
+      callbackUrl:
+        'https://0r062lbz-3000.inc1.devtunnels.ms/api/checkstatus?txnId=' + tid,
       mobileNumber: phone,
       paymentInstrument: {
         type: 'PAY_PAGE',
       },
     };
-
+    console.log('body', tid);
     let objJsonStr = JSON.stringify(apiReq);
     let objJsonB64 = base64.encode(objJsonStr);
     const checkSum =
       CryptoJS.SHA256(objJsonB64 + apiEndPoint + saltKey).toString() +
       '###' +
       saltIndex;
-
+    console.log({body: objJsonB64, checkSum});
     return {body: objJsonB64, checkSum};
   };
   const [state, setState] = useState({
@@ -264,13 +266,27 @@ const CheckoutScreen = props => {
   };
   const onOrderPlace = async orderBody => {
     const d = getCheckSum();
-    console.log(d);
+
     PhonePePaymentSDK.startTransaction(d.body, d.checkSum, '', appSchema)
-      .then(a => {
-        console.log(a);
+      .then(async res => {
+        console.log(res, '---->');
+
+        if (res.status === 'SUCCESS') {
+          const orderData = await createOrder(orderBody);
+          if (orderData.success) {
+            const orderUpdated = await VerifyOrder(orderData);
+            console.log('🚀 ~ orderUpdated:', orderUpdated);
+            navigate(RoutesName.HOME);
+            showSuccess('Order Placed Successfully!');
+          }
+        } else {
+          showError("Oops Something went's wrong!", 5000);
+        }
       })
       .catch(err => {
-        console.log('🚀 ~ err:', err);
+        showError("Oops Something went's wrong!", 5000);
+
+        console.log('🚀 ~ err:-------------->', err);
       });
     return;
     RNUpiPayment.initializePayment(

@@ -33,25 +33,15 @@ export const RemoveFromCart = async id => {
     showError(error.message);
   }
 };
-export const VerifyOrder = async (
-  payment_id,
-  order_id,
-  signature,
-  orderData,
-) => {
+export const VerifyOrder = async orderData => {
   try {
-    const {data} = await client.post(
-      Endpoints.VERIFY_ORDER(payment_id, order_id, signature),
-      {
-        orderData: {
-          paymentDetails: {
-            paymentId: payment_id,
-          },
-          ...orderData,
-        },
+    const {data} = await client.post(Endpoints.VERIFY_ORDER(), {
+      orderData: {
+        ...orderData,
       },
-    );
+    });
     getCart();
+    return data;
   } catch (error) {
     showError(error.message);
   }
