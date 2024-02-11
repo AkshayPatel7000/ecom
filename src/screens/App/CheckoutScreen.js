@@ -1,37 +1,49 @@
 import {
-  ScrollView,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
-import React, {useCallback, useEffect, useState} from 'react';
-import Container from '../../components/Container';
-import BackHeader from '../../components/Headers/BackHeader';
-import {
   useFocusEffect,
   useNavigation,
   useTheme,
 } from '@react-navigation/native';
+global.Buffer = require('buffer').Buffer;
+import React, {useCallback, useEffect, useState} from 'react';
+import {ScrollView, StyleSheet, TouchableOpacity, View} from 'react-native';
+import PhonePePaymentSDK from 'react-native-phonepe-pg';
+import RazorpayCheckout from 'react-native-razorpay';
+import RNUpiPayment from 'react-native-upi-payment';
+import {VerifyOrder} from '../../Services/AppServices/CartServices';
+import {createOrder} from '../../Services/AppServices/ShopService';
+import {useTypedSelector} from '../../Store/MainStore';
+import {selectAppLogo, selectUserProfile} from '../../Store/Slices/AuthSlice';
+import {selectCartItems} from '../../Store/Slices/CartSlice';
+import Container from '../../components/Container';
+import CustomButton from '../../components/CustomButton';
+import CustomInput from '../../components/CustomInput';
 import CustomText from '../../components/CustomText/CustomText';
 import GlobalStyles from '../../components/GlobalStyles/GlobalStyles';
+import BackHeader from '../../components/Headers/BackHeader';
 import {
   FONTSIZE,
   LocalStorage,
   RoutesName,
   Strings,
 } from '../../utils/Resource';
-import CustomButton from '../../components/CustomButton';
-import RazorpayCheckout from 'react-native-razorpay';
-import {useTypedSelector} from '../../Store/MainStore';
-import {selectAppLogo, selectUserProfile} from '../../Store/Slices/AuthSlice';
-import CustomInput from '../../components/CustomInput';
-import {selectCartItems} from '../../Store/Slices/CartSlice';
-import {createOrder} from '../../Services/AppServices/ShopService';
 import {showError, showSuccess} from '../../utils/helperFunction';
-import {VerifyOrder} from '../../Services/AppServices/CartServices';
-import {getUserProfile} from '../../Services/AuthServices/AuthServices';
+import CryptoJS from 'rn-crypto-js';
+
+import base64 from '../../utils/Resource/base64';
+import encodeUtf8 from '../../utils/Resource/utf8';
 const CheckoutScreen = props => {
+  const pgData = {
+    environmentForSDK: 'SANDBOX',
+    merchantId: 'PGTESTPAYUAT139',
+    appId: '',
+    enableLogging: true,
+  };
+  const body = '';
+  const packageName = '';
+  const appSchema = '';
+  const apiEndPoint = '/pg/v1/pay';
+  const saltKey = '695d0547-3728-4b1c-825d-996479133615';
+  const saltIndex = '1';
   const {colors} = useTheme();
   const styles = getStyles(colors);
   const {navigate} = useNavigation();
@@ -64,7 +76,47 @@ const CheckoutScreen = props => {
       getAddress();
     }, [props]),
   );
+  useEffect(() => {
+    const init = () => {
+      PhonePePaymentSDK.init(
+        pgData.environmentForSDK,
+        pgData.merchantId,
+        pgData.appId,
+        pgData.enableLogging,
+      )
+        .then(result => {
+          console.log('🚀 ~ result:', result);
 
+          // handle promise
+        })
+        .catch(err => {
+          console.log('🚀 ~ err:', err);
+        });
+    };
+    init();
+  }, []);
+
+  const getCheckSum = () => {
+    const apiReq = {
+      merchantId: pgData.merchantId,
+      merchantTransactionId: 'MT' + Date.now(),
+      merchantUserId: 'MUID123',
+      amount: cart.totalDiscountedPrice,
+      callbackUrl: 'https://webhook.site/callback-url',
+      mobileNumber: phone,
+      paymentInstrument: {
+        type: 'PAY_PAGE',
+      },
+    };
+
+    const payload = JSON.stringify(apiReq);
+    const payloadMain = Buffer.from(payload).toString('base64');
+
+    const string = payloadMain + '/pg/v1/pay' + saltKey;
+    const sha256 = CryptoJS.createHash('sha256').update(string).digest('hex');
+    const checksum = sha256 + '###' + saltIndex;
+    console.log({checksum});
+  };
   const [state, setState] = useState({
     firstName: '',
     firstNameHasError: false,
@@ -210,7 +262,34 @@ const CheckoutScreen = props => {
       }
     }
   };
-  const onOrderPlace = orderBody => {
+  const onOrderPlace = async orderBody => {
+    const d = getCheckSum();
+    return;
+    // console.log(d);
+    PhonePePaymentSDK.startTransaction(d.body, d.checkSum, '', appSchema)
+      .then(a => {
+        console.log(a);
+      })
+      .catch(err => {
+        console.log('🚀 ~ err:', err);
+      });
+    return;
+    RNUpiPayment.initializePayment(
+      {
+        vpa: '10sakshi.patel@oksbi', // or can be john@ybl or mobileNo@upi
+        payeeName: 'Vidhi Traders',
+        amount: '10',
+        transactionRef: 'aasf-3efE32-asaoddsvsei-fnsfsd',
+      },
+      e => {
+        console.log(JSON.stringify(e));
+      },
+      e => {
+        console.log('fail', JSON.stringify(e));
+      },
+    );
+    return;
+
     var options = {
       description: 'Credits towards consultation',
       image: appLogo,
