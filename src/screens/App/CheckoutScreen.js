@@ -3,7 +3,6 @@ import {
   useNavigation,
   useTheme,
 } from '@react-navigation/native';
-global.Buffer = require('buffer').Buffer;
 import React, {useCallback, useEffect, useState} from 'react';
 import {ScrollView, StyleSheet, TouchableOpacity, View} from 'react-native';
 import PhonePePaymentSDK from 'react-native-phonepe-pg';
@@ -109,13 +108,14 @@ const CheckoutScreen = props => {
       },
     };
 
-    const payload = JSON.stringify(apiReq);
-    const payloadMain = Buffer.from(payload).toString('base64');
+    let objJsonStr = JSON.stringify(apiReq);
+    let objJsonB64 = base64.encode(objJsonStr);
+    const checkSum =
+      CryptoJS.SHA256(objJsonB64 + apiEndPoint + saltKey).toString() +
+      '###' +
+      saltIndex;
 
-    const string = payloadMain + '/pg/v1/pay' + saltKey;
-    const sha256 = CryptoJS.createHash('sha256').update(string).digest('hex');
-    const checksum = sha256 + '###' + saltIndex;
-    console.log({checksum});
+    return {body: objJsonB64, checkSum};
   };
   const [state, setState] = useState({
     firstName: '',
@@ -264,8 +264,7 @@ const CheckoutScreen = props => {
   };
   const onOrderPlace = async orderBody => {
     const d = getCheckSum();
-    return;
-    // console.log(d);
+    console.log(d);
     PhonePePaymentSDK.startTransaction(d.body, d.checkSum, '', appSchema)
       .then(a => {
         console.log(a);
