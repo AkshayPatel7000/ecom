@@ -6,7 +6,8 @@ import {LocalStorage} from '../../utils/Resource';
 import {setIsLoading} from '../../Store/Slices/LoaderSlice';
 
 const client = axios.create({
-  baseURL: 'https://ecombackend-dgdu.onrender.com/',
+  baseURL: 'http://3.7.55.20:3002/',
+  // baseURL: 'https://ecombackend-dgdu.onrender.com/',
   // baseURL: 'http://ecombackend.ap-south-1.elasticbeanstalk.com/',
 });
 

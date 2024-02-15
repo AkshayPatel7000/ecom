@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-               BuildableName = "VidhiTraders.app"
-               BlueprintName = "VidhiTraders"
-               ReferencedContainer = "container:VidhiTraders.xcodeproj">
+               BuildableName = "RaghuTraders.app"
+               BlueprintName = "RaghuTraders"
+               ReferencedContainer = "container:RaghuTraders.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -33,9 +33,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "00E356ED1AD99517003FC87E"
-               BuildableName = "VidhiTradersTests.xctest"
-               BlueprintName = "VidhiTradersTests"
-               ReferencedContainer = "container:VidhiTraders.xcodeproj">
+               BuildableName = "RaghuTradersTests.xctest"
+               BlueprintName = "RaghuTradersTests"
+               ReferencedContainer = "container:RaghuTraders.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -55,9 +55,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-            BuildableName = "VidhiTraders.app"
-            BlueprintName = "VidhiTraders"
-            ReferencedContainer = "container:VidhiTraders.xcodeproj">
+            BuildableName = "RaghuTraders.app"
+            BlueprintName = "RaghuTraders"
+            ReferencedContainer = "container:RaghuTraders.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </LaunchAction>
@@ -72,9 +72,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-            BuildableName = "VidhiTraders.app"
-            BlueprintName = "VidhiTraders"
-            ReferencedContainer = "container:VidhiTraders.xcodeproj">
+            BuildableName = "RaghuTraders.app"
+            BlueprintName = "RaghuTraders"
+            ReferencedContainer = "container:RaghuTraders.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

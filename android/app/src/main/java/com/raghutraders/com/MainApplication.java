@@ -1,4 +1,4 @@
-package com.vidhitraders.app;
+package com.raghutraders.com;
 
 import android.app.Application;
 import com.facebook.react.PackageList;

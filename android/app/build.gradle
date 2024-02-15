@@ -93,9 +93,9 @@ android {
 
     compileSdkVersion rootProject.ext.compileSdkVersion
 
-    namespace "com.vidhitraders.app"
+    namespace "com.raghutraders.com"
     defaultConfig {
-        applicationId "com.vidhitraders.app"
+        applicationId "com.raghutraders.com"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
