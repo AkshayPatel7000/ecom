@@ -13,6 +13,8 @@ const initialState = {
   mySelectedOrder: {},
   dashboard: {},
   appLogo: null,
+  companyName: '',
+  forgotEmail: '',
 };
 
 const slice = createSlice({
@@ -59,7 +61,11 @@ const slice = createSlice({
       state.dashboard = action.payload;
     },
     setAppLogo: (state, action) => {
-      state.appLogo = action.payload;
+      state.appLogo = action.payload.logo;
+      state.companyName = action.payload.name;
+    },
+    setForgotEmail: (state, {payload}) => {
+      state.forgotEmail = payload;
     },
     resetAuthSlice: (state, action) => {
       state = {
@@ -90,6 +96,7 @@ export const {
   setDashboard,
   resetAuthSlice,
   setAppLogo,
+  setForgotEmail
 } = slice.actions;
 
 export default slice.reducer;
@@ -106,4 +113,4 @@ export const selectMyOrdersDELIVERED = state =>
   state.AuthSlice.myOrdersDELIVERED;
 export const selectedOrderData = state => state.AuthSlice.mySelectedOrder;
 export const selectDashboard = state => state.AuthSlice.dashboard;
-export const selectAppLogo = state => state.AuthSlice.appLogo;
+export const selectAppLogo = state => state.AuthSlice;

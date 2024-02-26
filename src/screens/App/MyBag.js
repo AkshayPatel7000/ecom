@@ -145,7 +145,7 @@ const MyBag = () => {
               <CustomText style={[styles.H0, {color: colors.GRAY100}]}>
                 Discount:
               </CustomText>
-              <CustomText style={styles.H0}>₹ {cart.discounte}</CustomText>
+              <CustomText style={styles.H0}>₹ {cart.discounte?.toFixed(2)}</CustomText>
             </View>
             <View
               style={{
@@ -168,7 +168,7 @@ const MyBag = () => {
                 Amount To Pay:
               </CustomText>
               <CustomText style={styles.H0}>
-                ₹ {cart.totalDiscountedPrice}
+                ₹ {cart.totalDiscountedPrice?.toFixed(2)}
               </CustomText>
             </View>
             <CustomButton

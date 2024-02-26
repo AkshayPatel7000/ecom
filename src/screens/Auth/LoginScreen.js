@@ -8,7 +8,13 @@ import Container from '../../components/Container';
 import CustomButton from '../../components/CustomButton';
 import CustomInput from '../../components/CustomInput';
 import CustomText from '../../components/CustomText/CustomText';
-import {FONTFAMILY, FONTSIZE, RoutesName, Strings} from '../../utils/Resource';
+import {
+  FONTFAMILY,
+  FONTSIZE,
+  RoutesName,
+  Strings,
+  width,
+} from '../../utils/Resource';
 import StringsConstants from '../../utils/constants/Strings';
 import {moderateScale, moderateVerticalScale} from '../../utils/responsive';
 import {login} from '../../Services/AuthServices/AuthServices';
@@ -18,7 +24,7 @@ import {selectAppLogo} from '../../Store/Slices/AuthSlice';
 const LoginScreen = () => {
   const {colors, dark} = useTheme();
   const styles = getStyles(colors);
-  const appLogo = useTypedSelector(selectAppLogo);
+  const {appLogo, companyName} = useTypedSelector(selectAppLogo);
 
   const [state, setState] = useState({
     email: '',
@@ -136,18 +142,16 @@ const LoginScreen = () => {
         showsVerticalScrollIndicator={false}>
         <View style={styles.main}>
           <View style={styles.svgContainer}>
-            <AuthSVG />
+            {/* <AuthSVG /> */}
             {appLogo && (
               <View
                 style={{
-                  height: 70,
-                  width: 70,
-                  bottom: 10,
-                  position: 'absolute',
+                  height: 200,
+                  width: width * 0.8,
                 }}>
                 <Image
                   source={{uri: appLogo}}
-                  style={{height: '100%', width: '100%'}}
+                  style={{height: '100%', width: '100%', resizeMode: 'cover', borderRadius: 10}}
                 />
               </View>
             )}
@@ -160,7 +164,9 @@ const LoginScreen = () => {
               justifyContent: 'space-evenly',
               alignItems: 'center',
             }}>
-            <CustomText style={styles.heading}>Let’s you in </CustomText>
+            <CustomText style={styles.heading}>
+              {companyName || 'Vidhi Rice Traders'}
+            </CustomText>
           </View>
           <View style={styles.buttonContainer}>
             <View style={{width: '100%', marginTop: moderateScale(15)}}>
@@ -185,7 +191,11 @@ const LoginScreen = () => {
                 errorMsg={passwordErrorMsg}
                 onBlur={() => checkValidation('password')}
               />
-              <TouchableOpacity style={styles.forgotContainer}>
+              <TouchableOpacity
+                style={styles.forgotContainer}
+                onPress={() => {
+                  navigation.navigate(RoutesName.FORGOT);
+                }}>
                 <CustomText style={styles.forgotText}>
                   Forgot Password
                 </CustomText>
@@ -221,11 +231,10 @@ const getStyles = colors => {
       flex: 1,
     },
     heading: {
-      // fontFamily: FONTFAMILY.PoppinsRegular,
       fontSize: FONTSIZE.Text32,
-
       fontWeight: '600',
       fontFamily: FONTFAMILY.PoppinsSemiBold,
+      marginTop: -20
     },
     svgContainer: {
       justifyContent: 'center',

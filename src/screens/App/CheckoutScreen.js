@@ -5,7 +5,7 @@ import {
 } from '@react-navigation/native';
 import React, {useCallback, useEffect, useState} from 'react';
 import {ScrollView, StyleSheet, TouchableOpacity, View} from 'react-native';
-import PhonePePaymentSDK from 'react-native-phonepe-pg';
+// import PhonePePaymentSDK from 'react-native-phonepe-pg';
 import RazorpayCheckout from 'react-native-razorpay';
 import RNUpiPayment from 'react-native-upi-payment';
 import {VerifyOrder} from '../../Services/AppServices/CartServices';
@@ -49,7 +49,7 @@ const CheckoutScreen = props => {
   const cart = useTypedSelector(selectCartItems);
   const userData = useTypedSelector(selectUserProfile);
   const [useDefaultAddress, setUseDefaultAddress] = useState(true);
-  const appLogo = useTypedSelector(selectAppLogo);
+  const {appLogo, companyName} = useTypedSelector(selectAppLogo);
 
   useFocusEffect(
     useCallback(() => {
@@ -76,23 +76,23 @@ const CheckoutScreen = props => {
     }, [props]),
   );
   useEffect(() => {
-    const init = () => {
-      PhonePePaymentSDK.init(
-        pgData.environmentForSDK,
-        pgData.merchantId,
-        pgData.appId,
-        pgData.enableLogging,
-      )
-        .then(result => {
-          console.log('🚀 ~ result:', result);
+    // const init = () => {
+    //   PhonePePaymentSDK.init(
+    //     pgData.environmentForSDK,
+    //     pgData.merchantId,
+    //     pgData.appId,
+    //     pgData.enableLogging,
+    //   )
+    //     .then(result => {
+    //       console.log('🚀 ~ result:', result);
 
-          // handle promise
-        })
-        .catch(err => {
-          console.log('🚀 ~ err:', err);
-        });
-    };
-    init();
+    //       // handle promise
+    //     })
+    //     .catch(err => {
+    //       console.log('🚀 ~ err:', err);
+    //     });
+    // };
+    // init();
   }, []);
 
   const getCheckSum = () => {
@@ -101,7 +101,7 @@ const CheckoutScreen = props => {
       merchantId: pgData.merchantId,
       merchantTransactionId: tid,
       merchantUserId: 'MUID123',
-      amount: cart.totalDiscountedPrice * 100,
+      amount: Number(cart.totalDiscountedPrice * 100).toFixed(2),
       callbackUrl:
         'https://0r062lbz-3000.inc1.devtunnels.ms/api/checkstatus?txnId=' + tid,
       mobileNumber: phone,
@@ -267,32 +267,32 @@ const CheckoutScreen = props => {
   const onOrderPlace = async orderBody => {
     const d = getCheckSum();
 
-    PhonePePaymentSDK.startTransaction(d.body, d.checkSum, '', appSchema)
-      .then(async res => {
-        console.log(res, '---->');
+    // PhonePePaymentSDK.startTransaction(d.body, d.checkSum, '', appSchema)
+    //   .then(async res => {
+    //     console.log(res, '---->');
 
-        if (res.status === 'SUCCESS') {
-          const orderData = await createOrder(orderBody);
-          if (orderData.success) {
-            const orderUpdated = await VerifyOrder(orderData);
-            console.log('🚀 ~ orderUpdated:', orderUpdated);
-            navigate(RoutesName.HOME);
-            showSuccess('Order Placed Successfully!');
-          }
-        } else {
-          showError("Oops Something went's wrong!", 5000);
-        }
-      })
-      .catch(err => {
-        showError("Oops Something went's wrong!", 5000);
+    //     if (res.status === 'SUCCESS') {
+    //       const orderData = await createOrder(orderBody);
+    //       if (orderData.success) {
+    //         const orderUpdated = await VerifyOrder(orderData);
+    //         console.log('🚀 ~ orderUpdated:', orderUpdated);
+    //         navigate(RoutesName.HOME);
+    //         showSuccess('Order Placed Successfully!');
+    //       }
+    //     } else {
+    //       showError("Oops Something went's wrong!", 5000);
+    //     }
+    //   })
+    //   .catch(err => {
+    //     showError("Oops Something went's wrong!", 5000);
 
-        console.log('🚀 ~ err:-------------->', err);
-      });
+    //     console.log('🚀 ~ err:-------------->', err);
+    //   });
     return;
     RNUpiPayment.initializePayment(
       {
         vpa: '10sakshi.patel@oksbi', // or can be john@ybl or mobileNo@upi
-        payeeName: 'Vidhi Traders',
+        payeeName: 'Vidhi Rice Traders',
         amount: '10',
         transactionRef: 'aasf-3efE32-asaoddsvsei-fnsfsd',
       },
@@ -312,7 +312,7 @@ const CheckoutScreen = props => {
       // key: 'rzp_test_V58aNPoa7wSiXe', // Your api key
       key: 'rzp_test_Dm4PdaaZGNqDII', // Your api key
       amount: cart.totalDiscountedPrice * 100,
-      name: 'Vidhi Traders',
+      name: 'Vidhi Rice Traders',
       prefill: {
         email: userData.email,
         contact: phone,
@@ -527,7 +527,7 @@ const CheckoutScreen = props => {
             <CustomText style={[styles.H0, {color: colors.GRAY100}]}>
               Discount:
             </CustomText>
-            <CustomText style={styles.H0}>₹ {cart.discounte}</CustomText>
+            <CustomText style={styles.H0}>₹ {cart.discounte?.toFixed(2)}</CustomText>
           </View>
           <View
             style={{
@@ -550,7 +550,7 @@ const CheckoutScreen = props => {
               Amount To Pay:
             </CustomText>
             <CustomText style={styles.H0}>
-              ₹ {cart.totalDiscountedPrice}
+              ₹ {cart.totalDiscountedPrice?.toFixed(2)}
             </CustomText>
           </View>
           <CustomButton title="PLACE ORDER" onPress={CreateNewOrder} />

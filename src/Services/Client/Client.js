@@ -1,13 +1,11 @@
 import axios from 'axios';
-
-import {store, useAppDispatch} from '../../Store/MainStore';
-
-import {LocalStorage} from '../../utils/Resource';
+import {store} from '../../Store/MainStore';
 import {setIsLoading} from '../../Store/Slices/LoaderSlice';
+import {LocalStorage} from '../../utils/Resource';
 
 const client = axios.create({
-  baseURL: 'http://3.7.55.20:3002/',
-  // baseURL: 'https://ecombackend-dgdu.onrender.com/',
+  baseURL: 'https://ecombackend-dgdu.onrender.com/',
+  // baseURL: 'http://3.7.55.20:3000/',
   // baseURL: 'http://ecombackend.ap-south-1.elasticbeanstalk.com/',
 });
 
@@ -28,6 +26,7 @@ client.interceptors.request.use(
 
 client.interceptors.response.use(
   res => {
+    console.log(res.data);
     if (200 <= res.status >= 202) {
       store.dispatch(setIsLoading(false));
       throw res.data;

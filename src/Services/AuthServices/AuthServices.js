@@ -1,4 +1,4 @@
-import {store} from '../../Store/MainStore';
+import { store } from '../../Store/MainStore';
 import {
   setAppLogo,
   setAuthToken,
@@ -7,12 +7,12 @@ import {
   setMyOrders,
   setUserProfile,
 } from '../../Store/Slices/AuthSlice';
-import {setIsLoading} from '../../Store/Slices/LoaderSlice';
-import {showError, showSuccess} from '../../utils/helperFunction';
+import { setIsLoading } from '../../Store/Slices/LoaderSlice';
+import { showError, showSuccess } from '../../utils/helperFunction';
 
-import {LocalStorage} from '../../utils/Resource';
-import {default as Client, default as client} from '../Client/Client';
-import URLS, {HEADERS} from '../Client/Endpoints';
+import { LocalStorage } from '../../utils/Resource';
+import { default as Client, default as client } from '../Client/Client';
+import URLS from '../Client/Endpoints';
 
 export const login = async body => {
   try {
@@ -29,13 +29,12 @@ export const login = async body => {
     showError(error.message);
   }
 };
+
 export const signUp = async body => {
   try {
     const {data} = await Client.post(URLS.SIGN_UP, body);
-
     LocalStorage.storeToken(data.jwt);
     store.dispatch(setAuthToken(data.jwt));
-
     getUserProfile(data.jwt);
     getCarousel();
     return data;
@@ -44,6 +43,26 @@ export const signUp = async body => {
     showError(error.message);
   }
 };
+
+export const sendOtp = async body =>{
+  try{
+    const {data} = await Client.post(URLS.SEND_OTP, body);
+    return data
+  }catch(e){
+    store.dispatch(setIsLoading(false));
+    showError(error.message);
+  }
+}
+
+export const changePasswordApi = async body =>{
+  try{
+    const {data} = await Client.post(URLS.CHANGE_PASSWORD, body);
+    return data
+  }catch(e){
+    store.dispatch(setIsLoading(false));
+    showError(error.message);
+  }
+}
 
 export const FCM_UPDATE = async () => {
   try {
@@ -66,15 +85,19 @@ export const getUserProfile = async token => {
     store.dispatch(setUserProfile({...data}));
   } catch (error) {}
 };
+
 export const getAppLogo = async token => {
   try {
     const {data} = await Client.get(URLS.APP_LOGO);
-
+    console.log(data);
     if (data.profile.logo) {
-      store.dispatch(setAppLogo(data.profile.logo));
+      store.dispatch(
+        setAppLogo({logo: data.profile.logo, name: data.profile.companyName}),
+      );
     }
   } catch (error) {}
 };
+
 const userLoginData = async tkn => {
   try {
     const {data} = await client.post(URLS.GET_USER_LOGIN_DETAIL(tkn));
@@ -103,6 +126,7 @@ export const uploadImage = async image => {
     return data.path;
   } catch (error) {}
 };
+
 export const updateUser = async body => {
   try {
     const token = await LocalStorage.getToken();
@@ -114,12 +138,14 @@ export const updateUser = async body => {
     return data;
   } catch (error) {}
 };
+
 export const getCarousel = async () => {
   try {
     const {data} = await client.get(URLS.GET_CAROUSEL);
     store.dispatch(setCarousel(data.carousel?.Carousellist));
   } catch (error) {}
 };
+
 export const getDashBoard = async () => {
   try {
     const {data} = await client.get(URLS.GET_DASHBOARD());
@@ -127,6 +153,7 @@ export const getDashBoard = async () => {
     store.dispatch(setDashboard(data));
   } catch (error) {}
 };
+
 export const getMyOrders = async (status = 'PLACED') => {
   try {
     const {data} = await client.get(URLS.GET_MY_ORDERS(status));
@@ -134,6 +161,7 @@ export const getMyOrders = async (status = 'PLACED') => {
     store.dispatch(setMyOrders({data, status}));
   } catch (error) {}
 };
+
 export const cancelOrder = async id => {
   try {
     const {data} = await client.put(URLS.CANCEL_ORDER(id), {});

@@ -83,7 +83,7 @@ const OrderDetails = () => {
                 {selectedOrder?.quantity}
               </CustomText>
             </View>
-            <CustomText style={styles.H1}>₹{item?.discountedPrice}</CustomText>
+            <CustomText style={styles.H1}>₹{item?.discountedPrice?.toFixed(2)}</CustomText>
           </View>
         </View>
       </View>
@@ -130,7 +130,7 @@ const OrderDetails = () => {
             Total Amount:{' '}
           </CustomText>
           <CustomText style={styles.H3L}>
-            ₹ {selectedOrder?.discountedPrice}
+            ₹ {selectedOrder?.discountedPrice?.toFixed(2)}
           </CustomText>
         </View>
       </View>

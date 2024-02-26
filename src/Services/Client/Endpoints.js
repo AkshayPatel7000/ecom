@@ -2,6 +2,8 @@
 export default URLS = {
   LOGIN: '/auth/signin',
   SIGN_UP: '/auth/signup',
+  SEND_OTP: '/auth/forgetPassword',
+  CHANGE_PASSWORD: '/auth/verifyAndChangePassword',
   PROFILE_DETAILS: '/api/users/profile',
   GET_CART: '/api/cart/',
   GET_CAROUSEL: '/api/carousel/getCarousel',

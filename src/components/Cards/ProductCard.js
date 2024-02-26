@@ -21,7 +21,7 @@ const ProductCard = ({item, onPress}) => {
         {item.discountPersent > 0 && (
           <View style={styles.discountStyles}>
             <CustomText style={styles.discountText}>
-              {item.discountPersent?.toFixed()}%
+              {item.discountPersent?.toFixed(2)}%
             </CustomText>
           </View>
         )}

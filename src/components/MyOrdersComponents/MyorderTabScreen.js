@@ -82,7 +82,7 @@ const MyOrderTabScreen = props => {
                 GlobalStyles.W500,
                 {color: colors.TEXT},
               ]}>
-              {item?.discountedPrice}
+              {item?.discountedPrice?.toFixed(2)}
             </CustomText>
           </View>
         </View>

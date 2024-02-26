@@ -56,7 +56,7 @@ const ProductDetails = () => {
           <View style={[styles.amountBox, {justifyContent: 'space-between'}]}>
             <View style={{flexDirection: 'row'}}>
               <CustomText numberOfLines={0} style={styles.D_AMOUNT}>
-                -{selectedProduct?.discountPersent.toFixed()}%
+                -{selectedProduct?.discountPersent.toFixed(2)}%
               </CustomText>
               <CustomText numberOfLines={0} style={styles.Sym}>
                 ₹
