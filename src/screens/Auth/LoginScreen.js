@@ -165,7 +165,7 @@ const LoginScreen = () => {
               alignItems: 'center',
             }}>
             <CustomText style={styles.heading}>
-              {companyName || 'Vidhi Rice Traders'}
+              {companyName || 'Raghunandan Rice Traders'}
             </CustomText>
           </View>
           <View style={styles.buttonContainer}>

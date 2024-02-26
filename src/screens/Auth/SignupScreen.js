@@ -185,7 +185,7 @@ const SignupScreen = () => {
             {/* <AuthSVG /> */}
           </View>
 
-          <CustomText style={styles.heading}>{companyName||"Vidhi Rice Traders"}</CustomText>
+          <CustomText style={styles.heading}>{companyName||"Raghunandan Rice Traders"}</CustomText>
           <View style={styles.buttonContainer}>
             <View style={{width: '100%', marginTop: moderateScale(15)}}>
               <CustomInput
