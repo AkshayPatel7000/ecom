@@ -20,6 +20,7 @@ import CustomButton from '../../components/CustomButton';
 import StringsConstants from '../../utils/constants/Strings';
 import {sendOtp} from '../../Services/AuthServices/AuthServices';
 import { useDispatch } from 'react-redux';
+import { showError } from '../../utils/helperFunction';
 
 const ForgotScreen = () => {
   const {colors, dark} = useTheme();
@@ -70,8 +71,9 @@ const ForgotScreen = () => {
       const data = await sendOtp(body);
       if (data?.success) {
         dispatch(setForgotEmail(email?.toLowerCase()));
-        console.log('object', data);
         navigation.navigate(RoutesName.CHANGE_PASSWORD);
+      }else{
+        showError(data?.message || 'Something went wrong!')
       }
     } else {
       updateState(error);
