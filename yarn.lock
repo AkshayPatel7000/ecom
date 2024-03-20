@@ -6458,6 +6458,10 @@ react-native-permissions@^4.1.2:
   resolved "https://registry.yarnpkg.com/react-native-permissions/-/react-native-permissions-4.1.2.tgz#14f31192f852c5e0813451f8f39fd22f041b1919"
   integrity sha512-dduzHcjYp1o52M8OLYhygQbGb/UnQLD3Gqhu+5cZz6MyWAb/4DQp5yYwKu6a2lY9Cz0QgbRd1Ejkmqn01cQqEg==
 
+"react-native-phonepe-pg@https://phonepe.mycloudrepo.io/public/repositories/phonepe-mobile-react-native-sdk/releases/v2/react-native-phonepe-pg.tgz":
+  version "2.0.1"
+  resolved "https://phonepe.mycloudrepo.io/public/repositories/phonepe-mobile-react-native-sdk/releases/v2/react-native-phonepe-pg.tgz#bc73de7fe09137c3c81062353401f3fdb6a55fab"
+
 react-native-portalize@^1.0.7:
   version "1.0.7"
   resolved "https://registry.yarnpkg.com/react-native-portalize/-/react-native-portalize-1.0.7.tgz#8b3c742a06f863654d526ea1075a8596625f8482"

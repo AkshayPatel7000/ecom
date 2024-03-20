@@ -19,7 +19,7 @@ import {selectAppLogo} from '../../Store/Slices/AuthSlice';
 const SignupScreen = () => {
   const {colors, dark} = useTheme();
   const styles = getStyles(colors);
-  const {appLogo, companyName}  = useTypedSelector(selectAppLogo);
+  const {appLogo, companyName} = useTypedSelector(selectAppLogo);
 
   const [state, setState] = useState({
     firstName: '',
@@ -157,7 +157,6 @@ const SignupScreen = () => {
       if (data) {
         await Keychain.setGenericPassword(body.email, body.password);
       }
-      console.log('object', data);
     } else {
       updateState(error);
     }
@@ -185,7 +184,9 @@ const SignupScreen = () => {
             {/* <AuthSVG /> */}
           </View>
 
-          <CustomText style={styles.heading}>{companyName||"Raghunandan Rice Traders"}</CustomText>
+          <CustomText style={styles.heading}>
+            {companyName || 'Raghunandan Rice Traders'}
+          </CustomText>
           <View style={styles.buttonContainer}>
             <View style={{width: '100%', marginTop: moderateScale(15)}}>
               <CustomInput

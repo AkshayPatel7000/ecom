@@ -1,14 +1,16 @@
 import {useNavigation, useTheme} from '@react-navigation/native';
 import React, {useEffect, useState} from 'react';
-import {Image, StyleSheet, View} from 'react-native';
+import {Image, Linking, StyleSheet, Text, View} from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import {AuthSVG, EmailSVG, KeySvg} from '../../assets/SVG';
 import Container from '../../components/Container';
 import CustomButton from '../../components/CustomButton';
 import CustomInput from '../../components/CustomInput';
 import CustomText from '../../components/CustomText/CustomText';
 import {
+  COLOR,
   FONTFAMILY,
   FONTSIZE,
   RoutesName,
@@ -151,7 +153,12 @@ const LoginScreen = () => {
                 }}>
                 <Image
                   source={{uri: appLogo}}
-                  style={{height: '100%', width: '100%', resizeMode: 'cover', borderRadius: 10}}
+                  style={{
+                    height: '100%',
+                    width: '100%',
+                    resizeMode: 'cover',
+                    borderRadius: 10,
+                  }}
                 />
               </View>
             )}
@@ -168,6 +175,26 @@ const LoginScreen = () => {
               {companyName || 'Raghunandan Rice Traders'}
             </CustomText>
           </View>
+          <Text style={styles.addressText}>
+            {
+              'J-31, Dandbunder, MAFCO Rd, APMC Market 2, Phase 2, Sector 19B, Vashi, Navi Mumbai, Maharashtra 400705'
+            }
+          </Text>
+          <View style={{flexDirection: 'row', alignItems: 'center'}}>
+            {/* <Text style={styles.addressText}>{'09819430492'}</Text> */}
+            <TouchableOpacity
+              style={{marginLeft: 15}}
+              onPress={() => {
+                Linking.openURL('https://maps.app.goo.gl/6VUjevPMSF8EKFmh7');
+              }}>
+              <Ionicons
+                name="location"
+                size={32}
+                color={COLOR.GRADIENT_GREEN_100}
+              />
+            </TouchableOpacity>
+          </View>
+
           <View style={styles.buttonContainer}>
             <View style={{width: '100%', marginTop: moderateScale(15)}}>
               <CustomInput
@@ -234,7 +261,14 @@ const getStyles = colors => {
       fontSize: FONTSIZE.Text32,
       fontWeight: '600',
       fontFamily: FONTFAMILY.PoppinsSemiBold,
-      marginTop: -20
+      marginTop: -20,
+    },
+    addressText: {
+      fontSize: FONTSIZE.Text14,
+      fontWeight: '500',
+      fontFamily: FONTFAMILY.PoppinsSemiBold,
+      textAlign: 'center',
+      // marginTop: -20
     },
     svgContainer: {
       justifyContent: 'center',

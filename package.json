@@ -39,6 +39,7 @@
     "react-native-otp-inputs": "^7.4.0",
     "react-native-pager-view": "^6.2.3",
     "react-native-permissions": "^4.1.2",
+    "react-native-phonepe-pg": "https://phonepe.mycloudrepo.io/public/repositories/phonepe-mobile-react-native-sdk/releases/v2/react-native-phonepe-pg.tgz",
     "react-native-portalize": "^1.0.7",
     "react-native-push-notification": "^8.1.1",
     "react-native-razorpay": "^2.3.0",

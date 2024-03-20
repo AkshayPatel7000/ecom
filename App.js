@@ -1,17 +1,17 @@
-import React, { useEffect } from 'react';
-import { LogBox, StatusBar } from 'react-native';
-import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import React, {useEffect} from 'react';
+import {LogBox, StatusBar} from 'react-native';
+import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import GlobalStyles from './src/components/GlobalStyles/GlobalStyles';
 
-import { DefaultTheme, NavigationContainer } from '@react-navigation/native';
+import {DefaultTheme, NavigationContainer} from '@react-navigation/native';
 import FlashMessage from 'react-native-flash-message';
 import Routes from './src/Routes';
-import { getAppLogo } from './src/Services/AuthServices/AuthServices';
-import { useAppDispatch, useTypedSelector } from './src/Store/MainStore';
-import { setAuthToken, setUserProfile } from './src/Store/Slices/AuthSlice';
-import { selectIsLoading } from './src/Store/Slices/LoaderSlice';
+import {getAppLogo} from './src/Services/AuthServices/AuthServices';
+import {useAppDispatch, useTypedSelector} from './src/Store/MainStore';
+import {setAuthToken, setUserProfile} from './src/Store/Slices/AuthSlice';
+import {selectIsLoading} from './src/Store/Slices/LoaderSlice';
 import Loader from './src/components/Loader';
-import { COLOR, COLOR_DARK, LocalStorage } from './src/utils/Resource';
+import {COLOR, COLOR_DARK, LocalStorage} from './src/utils/Resource';
 
 LogBox.ignoreAllLogs();
 
@@ -42,7 +42,7 @@ const App = () => {
       />
 
       {loader && <Loader />}
-      
+
       <NavigationContainer
         theme={{...DefaultTheme, colors: {...theme}, dark: isDark}}
         headerMode={false}

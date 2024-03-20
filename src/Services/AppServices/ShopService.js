@@ -65,7 +65,7 @@ export const getProductBySubCat = async category => {
 export const phonePayPayment = async reqData => {
   try {
     const res = await client.post(`api/payments/phonepe`, reqData);
-    console.log('api-res=>>', JSON.stringify(res.data));
+   
     return res.data;
   } catch (error) {
     console.log(error);

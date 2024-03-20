@@ -89,7 +89,7 @@ export const getUserProfile = async token => {
 export const getAppLogo = async token => {
   try {
     const {data} = await Client.get(URLS.APP_LOGO);
-    console.log(data);
+
     if (data.profile.logo) {
       store.dispatch(
         setAppLogo({logo: data.profile.logo, name: data.profile.companyName}),

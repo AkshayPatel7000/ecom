@@ -6,7 +6,6 @@ import {LocalStorage} from '../../utils/Resource';
 const client = axios.create({
   // baseURL: 'https://ecombackend-dgdu.onrender.com/',
   baseURL: 'http://3.7.55.20:5000/',
-  // baseURL: 'http://ecombackend.ap-south-1.elasticbeanstalk.com/',
 });
 
 client.interceptors.request.use(

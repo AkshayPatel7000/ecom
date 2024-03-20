@@ -51,6 +51,6 @@ const GetStyles = colors => {
       justifyContent: 'center',
       alignItems: 'center',
     },
-    lottie: {width: 160},
+    lottie: {width: '100%', height: '100%'},
   });
 };

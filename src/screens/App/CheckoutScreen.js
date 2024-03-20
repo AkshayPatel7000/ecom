@@ -3,16 +3,15 @@ import {
   useNavigation,
   useTheme,
 } from '@react-navigation/native';
-import React, {useCallback, useEffect, useState} from 'react';
-import {ScrollView, StyleSheet, TouchableOpacity, View} from 'react-native';
-// import PhonePePaymentSDK from 'react-native-phonepe-pg';
-import RazorpayCheckout from 'react-native-razorpay';
-import RNUpiPayment from 'react-native-upi-payment';
-import {VerifyOrder} from '../../Services/AppServices/CartServices';
-import {createOrder} from '../../Services/AppServices/ShopService';
-import {useTypedSelector} from '../../Store/MainStore';
-import {selectAppLogo, selectUserProfile} from '../../Store/Slices/AuthSlice';
-import {selectCartItems} from '../../Store/Slices/CartSlice';
+import React, { useCallback, useEffect, useState } from 'react';
+import { ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native';
+import PhonePePaymentSDK from 'react-native-phonepe-pg';
+import CryptoJS from 'rn-crypto-js';
+import { VerifyOrder } from '../../Services/AppServices/CartServices';
+import { createOrder } from '../../Services/AppServices/ShopService';
+import { useTypedSelector } from '../../Store/MainStore';
+import { selectUserProfile } from '../../Store/Slices/AuthSlice';
+import { selectCartItems } from '../../Store/Slices/CartSlice';
 import Container from '../../components/Container';
 import CustomButton from '../../components/CustomButton';
 import CustomInput from '../../components/CustomInput';
@@ -25,23 +24,19 @@ import {
   RoutesName,
   Strings,
 } from '../../utils/Resource';
-import {showError, showSuccess} from '../../utils/helperFunction';
-import CryptoJS from 'rn-crypto-js';
-
+import { showError, showSuccess } from '../../utils/helperFunction';
 import base64 from '../../utils/Resource/base64';
-import encodeUtf8 from '../../utils/Resource/utf8';
+
 const CheckoutScreen = props => {
   const pgData = {
-    environmentForSDK: 'SANDBOX',
-    merchantId: 'PGTESTPAYUAT',
+    environmentForSDK: 'PRODUCTION',
+    merchantId: 'M22FKG0DVJP8U',
     appId: '',
     enableLogging: true,
   };
-  const body = '';
-  const packageName = '';
   const appSchema = '';
   const apiEndPoint = '/pg/v1/pay';
-  const saltKey = '099eb0cd-02cf-4e2a-8aca-3e6c6aff0399';
+  const saltKey = '0584b5fb-e76a-4d0b-8d73-38738ce81709';
   const saltIndex = '1';
   const {colors} = useTheme();
   const styles = getStyles(colors);
@@ -49,7 +44,6 @@ const CheckoutScreen = props => {
   const cart = useTypedSelector(selectCartItems);
   const userData = useTypedSelector(selectUserProfile);
   const [useDefaultAddress, setUseDefaultAddress] = useState(true);
-  const {appLogo, companyName} = useTypedSelector(selectAppLogo);
 
   useFocusEffect(
     useCallback(() => {
@@ -76,23 +70,15 @@ const CheckoutScreen = props => {
     }, [props]),
   );
   useEffect(() => {
-    // const init = () => {
-    //   PhonePePaymentSDK.init(
-    //     pgData.environmentForSDK,
-    //     pgData.merchantId,
-    //     pgData.appId,
-    //     pgData.enableLogging,
-    //   )
-    //     .then(result => {
-    //       console.log('🚀 ~ result:', result);
-
-    //       // handle promise
-    //     })
-    //     .catch(err => {
-    //       console.log('🚀 ~ err:', err);
-    //     });
-    // };
-    // init();
+    const init = () => {
+      PhonePePaymentSDK.init(
+        pgData.environmentForSDK,
+        pgData.merchantId,
+        pgData.appId,
+        pgData.enableLogging,
+      );
+    };
+    init();
   }, []);
 
   const getCheckSum = () => {
@@ -101,7 +87,7 @@ const CheckoutScreen = props => {
       merchantId: pgData.merchantId,
       merchantTransactionId: tid,
       merchantUserId: 'MUID123',
-      amount: Number(cart.totalDiscountedPrice * 100).toFixed(2),
+      amount: cart.totalDiscountedPrice * 100,
       callbackUrl:
         'https://0r062lbz-3000.inc1.devtunnels.ms/api/checkstatus?txnId=' + tid,
       mobileNumber: phone,
@@ -109,14 +95,14 @@ const CheckoutScreen = props => {
         type: 'PAY_PAGE',
       },
     };
-    console.log('body', tid);
+
     let objJsonStr = JSON.stringify(apiReq);
     let objJsonB64 = base64.encode(objJsonStr);
     const checkSum =
       CryptoJS.SHA256(objJsonB64 + apiEndPoint + saltKey).toString() +
       '###' +
       saltIndex;
-    console.log({body: objJsonB64, checkSum});
+
     return {body: objJsonB64, checkSum};
   };
   const [state, setState] = useState({
@@ -267,95 +253,24 @@ const CheckoutScreen = props => {
   const onOrderPlace = async orderBody => {
     const d = getCheckSum();
 
-    // PhonePePaymentSDK.startTransaction(d.body, d.checkSum, '', appSchema)
-    //   .then(async res => {
-    //     console.log(res, '---->');
+    PhonePePaymentSDK.startTransaction(d.body, d.checkSum, '', appSchema)
+      .then(async res => {
+        if (res.status === 'SUCCESS') {
+          const orderData = await createOrder(orderBody);
+          if (orderData.success) {
+            const orderUpdated = await VerifyOrder(orderData);
 
-    //     if (res.status === 'SUCCESS') {
-    //       const orderData = await createOrder(orderBody);
-    //       if (orderData.success) {
-    //         const orderUpdated = await VerifyOrder(orderData);
-    //         console.log('🚀 ~ orderUpdated:', orderUpdated);
-    //         navigate(RoutesName.HOME);
-    //         showSuccess('Order Placed Successfully!');
-    //       }
-    //     } else {
-    //       showError("Oops Something went's wrong!", 5000);
-    //     }
-    //   })
-    //   .catch(err => {
-    //     showError("Oops Something went's wrong!", 5000);
-
-    //     console.log('🚀 ~ err:-------------->', err);
-    //   });
-    return;
-    RNUpiPayment.initializePayment(
-      {
-        vpa: '10sakshi.patel@oksbi', // or can be john@ybl or mobileNo@upi
-        payeeName: 'Vidhi Rice Traders',
-        amount: '10',
-        transactionRef: 'aasf-3efE32-asaoddsvsei-fnsfsd',
-      },
-      e => {
-        console.log(JSON.stringify(e));
-      },
-      e => {
-        console.log('fail', JSON.stringify(e));
-      },
-    );
-    return;
-
-    var options = {
-      description: 'Credits towards consultation',
-      image: appLogo,
-      currency: 'INR',
-      // key: 'rzp_test_V58aNPoa7wSiXe', // Your api key
-      key: 'rzp_test_Dm4PdaaZGNqDII', // Your api key
-      amount: cart.totalDiscountedPrice * 100,
-      name: 'Vidhi Rice Traders',
-      prefill: {
-        email: userData.email,
-        contact: phone,
-        name: `${userData.firstName} ${userData.lastName}`,
-      },
-      theme: {color: '#38CCAA'},
-      config: {
-        display: {
-          hide: [
-            {method: 'paylater'},
-            {method: 'emi'},
-            {method: 'wallet'},
-            {method: 'card'},
-            {method: 'netbanking'},
-          ],
-          preferences: {show_default_blocks: true},
-        },
-      },
-    };
-
-    RazorpayCheckout.open(options)
-      .then(async data => {
-        const {razorpay_order_id, razorpay_payment_id, razorpay_signature} =
-          data;
-        const orderData = await createOrder(orderBody);
-
-        if (orderData.error) {
-          return showError('Please select a valid address');
+            navigate(RoutesName.HOME);
+            showSuccess('Order Placed Successfully!');
+          }
+        } else {
+          showError("Oops Something went's wrong!", 5000);
         }
-        await VerifyOrder(
-          razorpay_payment_id,
-          razorpay_order_id,
-          razorpay_signature,
-          orderData,
-        );
-
-        navigate(RoutesName.HOME);
-        showSuccess('Order Placed Successfully!');
       })
-      .catch(error => {
-        showError(error?.error?.description, 5000);
+      .catch(err => {
+        showError("Oops Something went's wrong!", 5000);
 
-        // handle failure
+        console.log('🚀 ~ err:-------------->', err);
       });
   };
 
@@ -516,7 +431,9 @@ const CheckoutScreen = props => {
             <CustomText style={[styles.H0, {color: colors.GRAY100}]}>
               Total amount:
             </CustomText>
-            <CustomText style={styles.H0}>₹ {cart.totalPrice}</CustomText>
+            <CustomText style={styles.H0}>
+              ₹ {cart.totalPrice?.toFixed(2)}
+            </CustomText>
           </View>
           <View
             style={{
@@ -527,7 +444,9 @@ const CheckoutScreen = props => {
             <CustomText style={[styles.H0, {color: colors.GRAY100}]}>
               Discount:
             </CustomText>
-            <CustomText style={styles.H0}>₹ {cart.discounte?.toFixed(2)}</CustomText>
+            <CustomText style={styles.H0}>
+              ₹ {cart.discounte?.toFixed(2)}
+            </CustomText>
           </View>
           <View
             style={{
@@ -550,7 +469,7 @@ const CheckoutScreen = props => {
               Amount To Pay:
             </CustomText>
             <CustomText style={styles.H0}>
-              ₹ {cart.totalDiscountedPrice?.toFixed(2)}
+              ₹ {cart.totalDiscountedPrice}
             </CustomText>
           </View>
           <CustomButton title="PLACE ORDER" onPress={CreateNewOrder} />
