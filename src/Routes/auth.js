@@ -10,6 +10,7 @@ const AuthStack = Stack => {
       screenOptions={{
         headerShown: false,
         animation: 'slide_from_right',
+        gestureEnabled: true
       }}>
       <Stack.Screen name={RoutesName.LOGIN} component={LoginScreen} />
       <Stack.Screen name={RoutesName.SIGNUP} component={SignupScreen} />

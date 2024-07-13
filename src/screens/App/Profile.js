@@ -1,34 +1,32 @@
+import { useFocusEffect, useTheme } from '@react-navigation/native';
+import React, { useCallback, useRef, useState } from 'react';
 import {
   ScrollView,
   StyleSheet,
-  Text,
   TouchableOpacity,
-  View,
+  View
 } from 'react-native';
-import React, {useCallback, useEffect, useRef, useState} from 'react';
 import Container from '../../components/Container';
 import CustomText from '../../components/CustomText/CustomText';
-import {useFocusEffect, useTheme} from '@react-navigation/native';
 import GlobalStyles from '../../components/GlobalStyles/GlobalStyles';
-import {FONTSIZE, Strings} from '../../utils/Resource';
+import { FONTSIZE, Strings } from '../../utils/Resource';
 
-import ProfileImage from '../../components/Avatar/ProfileImage';
-import ProfileMenuItem from '../../components/ProfileMenuItem';
-import BackHeader from '../../components/Headers/BackHeader';
-import {useTypedSelector} from '../../Store/MainStore';
-import {selectUserProfile} from '../../Store/Slices/AuthSlice';
+import { Modalize } from 'react-native-modalize';
+import { Portal } from 'react-native-portalize';
 import {
-  getMyOrders,
   getUserProfile,
-  updateUser,
+  updateUser
 } from '../../Services/AuthServices/AuthServices';
-import {Modalize} from 'react-native-modalize';
-import CustomInput from '../../components/CustomInput';
-import {EmailSVG, PhoneSvg, ProfileSVG, UserSVG} from '../../assets/SVG';
-import {moderateScale, moderateVerticalScale} from '../../utils/responsive';
+import { useTypedSelector } from '../../Store/MainStore';
+import { selectUserProfile } from '../../Store/Slices/AuthSlice';
+import { EmailSVG, PhoneSvg, UserSVG } from '../../assets/SVG';
+import ProfileImage from '../../components/Avatar/ProfileImage';
 import CustomButton from '../../components/CustomButton';
-import {Portal} from 'react-native-portalize';
+import CustomInput from '../../components/CustomInput';
+import BackHeader from '../../components/Headers/BackHeader';
+import ProfileMenuItem from '../../components/ProfileMenuItem';
 import StringsConstants from '../../utils/constants/Strings';
+import { moderateScale, moderateVerticalScale } from '../../utils/responsive';
 
 const Profile = props => {
   const {colors, dark} = useTheme();

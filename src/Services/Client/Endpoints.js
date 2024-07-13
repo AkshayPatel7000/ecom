@@ -44,6 +44,7 @@ export default URLS = {
   APP_LOGO: '/api/admin/profile',
   GET_ALL_CATEGORIES: (level = 1, pageNumber = 1, pageSize = 100) =>
     `/api/category/getAllCategory?level=${level}&pageNumber=${pageNumber}&pageSize=${pageSize}`,
+  PAY_LATER: '/api/payments/paylater',
 };
 export const HEADERS = {
   URLENCODED: {

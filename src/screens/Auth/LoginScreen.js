@@ -171,14 +171,17 @@ const LoginScreen = () => {
               justifyContent: 'space-evenly',
               alignItems: 'center',
             }}>
-            <CustomText style={styles.heading}>
+            <CustomText style={styles.heading} numberOfLines={2}>
               {companyName || 'Raghunandan Rice Traders'}
             </CustomText>
           </View>
           <Text style={styles.addressText}>
             {
-              'J-31, Dandbunder, MAFCO Rd, APMC Market 2, Phase 2, Sector 19B, Vashi, Navi Mumbai, Maharashtra 400705'
+              'J-31, Dandbunder, MAFCO Rd, APMC Market 2, Phase 2, Sector 19B, Vashi, Navi Mumbai, Maharashtra 400703'
             }
+          </Text>
+          <Text style={styles.addressText}>
+            {'Contact:- 8268748894 , 9773999909'}
           </Text>
           <View style={{flexDirection: 'row', alignItems: 'center'}}>
             {/* <Text style={styles.addressText}>{'09819430492'}</Text> */}
@@ -258,7 +261,7 @@ const getStyles = colors => {
       flex: 1,
     },
     heading: {
-      fontSize: FONTSIZE.Text32,
+      fontSize: FONTSIZE.Text20,
       fontWeight: '600',
       fontFamily: FONTFAMILY.PoppinsSemiBold,
       marginTop: -20,
@@ -268,6 +271,7 @@ const getStyles = colors => {
       fontWeight: '500',
       fontFamily: FONTFAMILY.PoppinsSemiBold,
       textAlign: 'center',
+      color: '#000'
       // marginTop: -20
     },
     svgContainer: {

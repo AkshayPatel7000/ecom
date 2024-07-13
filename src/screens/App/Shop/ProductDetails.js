@@ -1,25 +1,28 @@
 import {Image, ScrollView, StyleSheet, Text, View} from 'react-native';
-import React from 'react';
+import React, {useRef, useState} from 'react';
 import Container from '../../../components/Container';
 import BackHeader from '../../../components/Headers/BackHeader';
 import {useNavigation, useTheme} from '@react-navigation/native';
 import {isEmptyImage} from '../../../utils/helperFunction';
 import CustomText from '../../../components/CustomText/CustomText';
 import GlobalStyles from '../../../components/GlobalStyles/GlobalStyles';
-import {FONTSIZE, RoutesName} from '../../../utils/Resource';
+import {FONTSIZE, RoutesName, width} from '../../../utils/Resource';
 import CustomButton from '../../../components/CustomButton';
 import {useTypedSelector} from '../../../Store/MainStore';
 import {selectedProductDetails} from '../../../Store/Slices/ShopSlice';
-
+import CarouselSlider, {Pagination} from 'react-native-snap-carousel';
 import {selectCartItems} from '../../../Store/Slices/CartSlice';
 import {addToCart} from '../../../Services/AppServices/CartServices';
+
 
 const ProductDetails = () => {
   const {colors} = useTheme();
   const styles = getStyles(colors);
   const {navigate} = useNavigation();
+  const [activeSlide, setActiveSlide] = useState(0);
   const selectedProduct = useTypedSelector(selectedProductDetails);
   const cartItems = useTypedSelector(selectCartItems);
+  const carouselRef = useRef();
 
   const addToCartHandler = () => {
     addToCart(selectedProduct._id);
@@ -40,10 +43,52 @@ const ProductDetails = () => {
       <BackHeader Title="Product Details" />
       <ScrollView contentContainerStyle={styles.contentContainerStyle}>
         <View style={styles.imageContainer}>
-          <Image
-            source={isEmptyImage(selectedProduct.imageUrl)}
+          {/* <Image
+            source={isEmptyImage(selectedProduct.imageUrl[imageCount])}
             style={styles.imageStyles}
-          />
+          /> */}
+          <View style={styles.carouselContainer}>
+            <CarouselSlider
+              ref={carouselRef}
+              data={selectedProduct.imageUrl}
+              renderItem={({item}) => {
+                return (
+                  <Image
+                    source={isEmptyImage(item)}
+                    style={styles.imageStyles}
+                    resizeMode="contain"
+                  />
+                );
+              }}
+              sliderWidth={width}
+              itemWidth={width}
+              loop
+              autoplay
+              enableMomentum={false}
+              lockScrollWhileSnapping={true}
+              onSnapToItem={index => setActiveSlide(index)}
+            />
+            <Pagination
+              dotsLength={selectedProduct?.imageUrl?.length}
+              activeDotIndex={activeSlide}
+              containerStyle={{
+                position: 'absolute',
+                bottom: 0,
+                left: 0,
+                right: 0,
+              }}
+              dotStyle={{
+                width: 10,
+                height: 10,
+                borderRadius: 5,
+              }}
+              inactiveDotStyle={{width: 15, height: 15, borderRadius: 10}}
+              inactiveDotOpacity={0.4}
+              inactiveDotScale={0.6}
+              dotColor={colors.PRIMARY_GREEN}
+              inactiveDotColor="#FFFFFF"
+            />
+          </View>
         </View>
         <View style={{marginVertical: 20}}>
           <CustomText numberOfLines={0} style={styles.P_Name}>
@@ -165,6 +210,17 @@ const getStyles = colors => {
     Button: {
       paddingHorizontal: 20,
       marginBottom: 30,
+    },
+    carouselContainer: {
+      position: 'relative',
+    },
+    slide: {
+      height: 280,
+      width: width,
+    },
+    imgStyle: {
+      height: '100%',
+      width: '100%',
     },
   });
 };

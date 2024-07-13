@@ -46,6 +46,26 @@ export const VerifyOrder = async orderData => {
     showError(error.message);
   }
 };
+
+export const payLaterOrder = async orderData => {
+  console.log('🚀 ~ orderData:', JSON.stringify(orderData));
+  try {
+    const {data} = await client.post(Endpoints.PAY_LATER, {
+      orderData: {
+        ...orderData,
+      },
+    });
+
+    await VerifyOrder(orderData);
+
+    return data;
+  } catch (error) {
+    console.log('🚀 ~ error:', error);
+    showError(error.message);
+    return {error};
+  }
+};
+
 export const UpdateCart = async (id, qty) => {
   try {
     const {data} = await client.put(Endpoints.UPDATE_CART_ITEM(id), {

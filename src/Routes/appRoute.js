@@ -23,6 +23,7 @@ const AppRoute = Stack => {
       screenOptions={{
         headerShown: false,
         animation: 'slide_from_right',
+        gestureEnabled: true
       }}>
       <Stack.Screen name={RoutesName.BOTTOM_TABS} component={BottomTabs} />
       <Stack.Screen name={RoutesName.MY_ORDERS} component={MyOrders} />

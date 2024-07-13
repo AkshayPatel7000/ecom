@@ -1,11 +1,11 @@
 import React from 'react';
-import {StyleSheet, TouchableOpacity, View} from 'react-native';
+import { Platform, StatusBar, StyleSheet, TouchableOpacity, View } from 'react-native';
 
-import {useNavigation, useTheme} from '@react-navigation/native';
+import { useNavigation, useTheme } from '@react-navigation/native';
 
-import {BackSVG} from '../../assets/SVG';
-import {FONTFAMILY, FONTSIZE} from '../../utils/Resource';
-import {moderateScale} from '../../utils/responsive';
+import { BackSVG } from '../../assets/SVG';
+import { FONTFAMILY, FONTSIZE } from '../../utils/Resource';
+import { moderateScale } from '../../utils/responsive';
 import CustomText from '../CustomText/CustomText';
 import GlobalStyles from '../GlobalStyles/GlobalStyles';
 const BackHeader = ({
@@ -77,10 +77,10 @@ const getStyles = colors => {
     },
     main: {
       flexDirection: 'row',
-      paddingHorizontal: moderateScale(15),
+      // paddingHorizontal: moderateScale(15),
       alignItems: 'flex-end',
-      paddingVertical: 20,
-      height: 90,
+      paddingVertical: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
+      // height: 30,
       backgroundColor: colors.BACKGROUND,
     },
     title: {

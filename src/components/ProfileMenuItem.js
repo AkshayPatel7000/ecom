@@ -112,7 +112,18 @@ const ProfileMenuItem = () => {
         />
       </View> */}
       <TouchableOpacity
-        style={[styles.button, styles.logout]}
+        style={[styles.button]}
+        onPress={() => onLogOutPress()}>
+        <View style={styles.button}>
+          {/* <LogoutSVG /> */}
+          <CustomText
+            style={[styles.title, {color: colors.RED_DARK, marginLeft: 10}]}>
+            Delete Account
+          </CustomText>
+        </View>
+      </TouchableOpacity>
+      <TouchableOpacity
+        style={[styles.button,{marginTop: -20}]}
         onPress={() => onLogOutPress()}>
         <View style={styles.button}>
           <LogoutSVG />
@@ -132,7 +143,7 @@ const getStyles = colors => {
   return StyleSheet.create({
     main: {
       paddingHorizontal: 16,
-      marginVertical: 40,
+      marginVertical: 20,
     },
     button: {
       flexDirection: 'row',

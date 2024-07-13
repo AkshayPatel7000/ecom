@@ -1,14 +1,12 @@
-import {useTheme} from '@react-navigation/native';
+import { useTheme } from '@react-navigation/native';
 
 import React from 'react';
 import {
-  Platform,
   SafeAreaView,
-  StatusBar,
   StyleSheet,
-  View,
+  View
 } from 'react-native';
-import {useSafeAreaInsets} from 'react-native-safe-area-context';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 const Container = ({
   contentContainerStyle = {},

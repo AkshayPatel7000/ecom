@@ -5,7 +5,7 @@ import {LocalStorage} from '../../utils/Resource';
 
 const client = axios.create({
   // baseURL: 'https://ecombackend-dgdu.onrender.com/',
-  baseURL: 'http://3.7.55.20:5000/',
+  baseURL: 'http://13.201.190.229:5000/',
 });
 
 client.interceptors.request.use(
